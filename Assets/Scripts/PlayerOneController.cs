@@ -83,9 +83,7 @@ public class PlayerOneController : MonoBehaviour
                 { SetVelocity(0, rb2d.velocity.y); }
             }
             else
-            {
-                AddVelocity(0, -gravity);
-            }
+            { AddVelocity(0, -gravity); }
         }
         //test force
         if (Input.GetKeyDown("q"))
@@ -93,10 +91,8 @@ public class PlayerOneController : MonoBehaviour
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Ladder")
-        {
-            otherLadderX = other.gameObject.transform.position.x;
-        }
+        if (other.gameObject.layer == layerMaskLadder)
+        { otherLadderX = other.gameObject.transform.position.x; }
     }
 
     void InputKeys()
