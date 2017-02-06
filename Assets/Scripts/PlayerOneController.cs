@@ -4,19 +4,24 @@ using System.Collections;
 public class PlayerOneController : MonoBehaviour
 {
     
-    [System.NonSerialized] public float moveForce = 200f;
-    [System.NonSerialized] public float collideForce = 20f;
-    [System.NonSerialized] public float gravity = 19.6f;
-    private float xSpeed = 10f;
-    private float ySpeed = 5f;
-    public bool isOnPlatform = false;
-    public bool isOnLadder = false;
-    public bool isWithLadder = false;
+    public float moveForce;
+    public float collideForce;
+    public float gravity;
+    public float xSpeed;
+    public float ySpeed;
+    public bool isOnPlatform;
+    public bool isWithLadder;
+    private bool isOnLadder = false;
     private bool isFacingRight = false;
-    public bool isJumping = false;
+    bool inputJumping = false;
     int inputXDirection = 0;
     int inputYDirection = 0;
     int inputYCount = 0;
+
+    public Transform checkPlatform;
+    public Transform checkLadder;
+    public LayerMask layerMaskPlatform;
+    public LayerMask layerMaskLadder;
 
     Rigidbody2D rb2d;
     public float otherLadderX;
@@ -59,12 +64,14 @@ public class PlayerOneController : MonoBehaviour
         }
 
         if (Input.GetKeyDown("z"))
-        { isJumping = true; }
+        { inputJumping = true; }
         if (Input.GetKeyUp("z"))
-        { isJumping = false; }
+        { inputJumping = false; }
+
+        isOnPlatform = Physics2D.OverlapCircle(checkPlatform.position, 0.1f, layerMaskPlatform);
+        isWithLadder = Physics2D.OverlapCircle(checkLadder.position, 0.1f, layerMaskLadder);
+
         //replace
-        Debug.Log(inputXDirection);
-        Debug.Log(inputYDirection);
         if (Input.GetKeyDown("r"))
         { transform.position = new Vector3(0f, 0f, transform.position.z); }
     }
@@ -73,11 +80,10 @@ public class PlayerOneController : MonoBehaviour
         if (isOnLadder)
         {
             rb2d.velocity = new Vector2(0f, inputYDirection * ySpeed);
-            if (isJumping)
+            if (inputJumping)
             {
                 isOnLadder = false;
-                rb2d.velocity = new Vector2(inputXDirection * xSpeed * 0.5f, 0f);
-                rb2d.AddForce(new Vector2(0, gravity * 0.5f), ForceMode2D.Impulse);
+                rb2d.velocity = new Vector2(inputXDirection * xSpeed * 0.5f, ySpeed);
             }
             if (isOnPlatform || !isWithLadder)
             { isOnLadder = false; }
@@ -95,10 +101,10 @@ public class PlayerOneController : MonoBehaviour
             }
             if (isOnPlatform)
             {
-                if (isJumping)
+                if (inputJumping)
                 {
                     isOnPlatform = false;
-                    rb2d.AddForce(new Vector2(0, gravity * 0.5f), ForceMode2D.Impulse);
+                    rb2d.velocity = new Vector2(rb2d.velocity.x, ySpeed);
                 }
 
                 if (Mathf.Abs(rb2d.velocity.x) <= xSpeed)
@@ -120,27 +126,14 @@ public class PlayerOneController : MonoBehaviour
     {
         if (other.gameObject.tag == "Platform")
         {
-            isOnPlatform = true;
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
         }
-    }
-    public void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Platform")
-            isOnPlatform = false;
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Ladder")
         {
-            isWithLadder = true;
             otherLadderX = other.gameObject.transform.position.x;
         }
     }
-    public void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Ladder")
-            isWithLadder = false;
-    }
-
 }
