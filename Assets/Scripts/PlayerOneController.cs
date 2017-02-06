@@ -21,8 +21,6 @@ public class PlayerOneController : MonoBehaviour
     int inputYDirection = 0;
     int inputYCount = 0;
 
-    Vector2 checkPlatform;
-    Vector2 checkLadder;
     public LayerMask layerMaskPlatform;
     public LayerMask layerMaskLadder;
 
@@ -37,9 +35,6 @@ public class PlayerOneController : MonoBehaviour
     {
         InputKeys();
         CollisionCheck();
-        //replace
-        if (Input.GetKeyDown("r"))
-        { transform.position = new Vector3(0f, 0f, transform.position.z); }
     }
     void FixedUpdate()
     {
@@ -126,8 +121,8 @@ public class PlayerOneController : MonoBehaviour
     }
     void CollisionCheck()
     {
-        checkPlatform = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.45f);
-        checkLadder = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+        Vector2 checkPlatform = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.45f);
+        Vector2 checkLadder = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
         isOnPlatform = Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform);
         isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.1f, layerMaskLadder);
     }
