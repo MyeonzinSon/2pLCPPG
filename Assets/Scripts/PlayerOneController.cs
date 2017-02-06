@@ -91,7 +91,7 @@ public class PlayerOneController : MonoBehaviour
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.layer == layerMaskLadder)
+        if (other.gameObject.tag == "Ladder")
         { otherLadderX = other.gameObject.transform.position.x; }
     }
 
@@ -122,7 +122,7 @@ public class PlayerOneController : MonoBehaviour
         if (Input.GetKeyDown("x"))
         { inputAbility = true; }
         if (Input.GetKeyUp("x"))
-        { inputJumping = false; }
+        { inputAbility = false; }
     }
     void CollisionCheck()
     {
