@@ -4,22 +4,30 @@ using System.Collections;
 public class PlayerOneController : MonoBehaviour
 {
     
-    [System.NonSerialized] public float moveForce = 200f;
-    [System.NonSerialized] public float collideForce = 20f;
-    [System.NonSerialized] public float gravity = 19.6f;
+    public float moveForce = 200f;
+    public float collideForce = 20f;
+    public float gravity = 19.6f;
     private float xSpeed = 10f;
     private float ySpeed = 5f;
     public bool isOnPlatform = false;
     public bool isOnLadder = false;
     public bool isWithLadder = false;
     private bool isFacingRight = false;
-    public bool isJumping = false;
+
+    private bool inputJump = false;
+    private bool inputAbility;
     int inputXDirection = 0;
     int inputYDirection = 0;
     int inputYCount = 0;
 
     Rigidbody2D rb2d;
-    public float otherLadderX;
+    public LayerMask layerMaskPlatform;
+    public LayerMask layerMaskLadder;
+    Vector2 checkPlatform;
+    Vector2 checkLadder;
+
+    bool collisionExit;
+    float otherLadderX;
 
     void Awake()
     {
@@ -28,40 +36,8 @@ public class PlayerOneController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("right"))
-        { inputXDirection += 1; }
-        if (Input.GetKeyUp("right"))
-        { inputXDirection -= 1; }
-        if (Input.GetKeyDown("left"))
-        { inputXDirection -= 1; }
-        if (Input.GetKeyUp("left"))
-        { inputXDirection += 1; }
-
-        if (Input.GetKeyDown("up"))
-        {
-            inputYDirection += 1;
-            inputYCount += 1;
-        }
-        if (Input.GetKeyUp("up"))
-        {
-            inputYDirection -= 1;
-            inputYCount -= 1;
-        }
-        if (Input.GetKeyDown("down"))
-        {
-            inputYDirection -= 1;
-            inputYCount += 1;
-        }
-        if (Input.GetKeyUp("down"))
-        {
-            inputYDirection += 1;
-            inputYCount -= 1;
-        }
-
-        if (Input.GetKeyDown("z"))
-        { isJumping = true; }
-        if (Input.GetKeyUp("z"))
-        { isJumping = false; }
+        InputKeys();
+        CheckCollision();
         //replace
         Debug.Log(inputXDirection);
         Debug.Log(inputYDirection);
@@ -73,7 +49,7 @@ public class PlayerOneController : MonoBehaviour
         if (isOnLadder)
         {
             rb2d.velocity = new Vector2(0f, inputYDirection * ySpeed);
-            if (isJumping)
+            if (inputJump)
             {
                 isOnLadder = false;
                 rb2d.velocity = new Vector2(inputXDirection * xSpeed * 0.5f, 0f);
@@ -95,7 +71,7 @@ public class PlayerOneController : MonoBehaviour
             }
             if (isOnPlatform)
             {
-                if (isJumping)
+                if (inputJump)
                 {
                     isOnPlatform = false;
                     rb2d.AddForce(new Vector2(0, gravity * 0.5f), ForceMode2D.Impulse);
@@ -116,22 +92,16 @@ public class PlayerOneController : MonoBehaviour
         if (Input.GetKeyDown("q"))
         { rb2d.AddForce(new Vector2(1000f, 0)); }
     }
-    public void OnCollisionEnter2D(Collision2D other)
+    public void OnCollisionExit(Collision2D other)
     {
-        if (other.gameObject.tag == "Platform")
+        if (other.gameObject.layer == layerMaskPlatform)
         {
-            isOnPlatform = true;
-            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-        }
-    }
-    public void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Platform")
             isOnPlatform = false;
+        }
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Ladder")
+        if (other.gameObject.layer == layerMaskLadder)
         {
             isWithLadder = true;
             otherLadderX = other.gameObject.transform.position.x;
@@ -139,8 +109,54 @@ public class PlayerOneController : MonoBehaviour
     }
     public void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Ladder")
-            isWithLadder = false;
+        if (other.gameObject.layer == layerMaskLadder)
+        { isWithLadder = false; }
     }
 
+    void InputKeys()
+    {
+        if (Input.GetKeyDown("right"))
+        { inputXDirection += 1; }
+        if (Input.GetKeyUp("right"))
+        { inputXDirection -= 1; }
+        if (Input.GetKeyDown("left"))
+        { inputXDirection -= 1; }
+        if (Input.GetKeyUp("left"))
+        { inputXDirection += 1; }
+
+        if (Input.GetKeyDown("up"))
+        { inputYDirection += 1; inputYCount += 1; }
+        if (Input.GetKeyUp("up"))
+        { inputYDirection -= 1; inputYCount -= 1; }
+        if (Input.GetKeyDown("down"))
+        { inputYDirection -= 1; inputYCount += 1; }
+        if (Input.GetKeyUp("down"))
+        { inputYDirection += 1; inputYCount -= 1; }
+
+        if (Input.GetKeyDown("z"))
+        { inputJump = true; }
+        if (Input.GetKeyUp("z"))
+        { inputJump = false; }
+
+        if (Input.GetKeyDown("x"))
+        { inputAbility = true; }
+        if (Input.GetKeyUp("x"))
+        { inputAbility = false; }
+    }
+    void CheckCollision()
+    {
+        checkPlatform = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.5f);
+        checkLadder = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+
+        if (Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform))
+        {
+            if (!isOnPlatform)
+            {
+                isOnPlatform = true;
+                rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
+            }
+        }
+        else if (!Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform))
+        { isOnPlatform = false; }
+    }
 }
