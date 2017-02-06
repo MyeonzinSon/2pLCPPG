@@ -7,19 +7,22 @@ public class PlayerOneController : MonoBehaviour
     public float moveForce;
     public float collideForce;
     public float gravity;
-    public float xSpeed;
-    public float ySpeed;
-    public bool isOnPlatform;
-    public bool isWithLadder;
+    public float moveSpeed;
+    public float ladderSpeed;
+    public float jumpSpeed;
+
+    private bool isOnPlatform = false;
+    private bool isWithLadder = false;
     private bool isOnLadder = false;
     private bool isFacingRight = false;
+
     bool inputJumping = false;
     int inputXDirection = 0;
     int inputYDirection = 0;
     int inputYCount = 0;
 
-    public Transform checkPlatform;
-    public Transform checkLadder;
+    Vector2 checkPlatform;
+    Vector2 checkLadder;
     public LayerMask layerMaskPlatform;
     public LayerMask layerMaskLadder;
 
@@ -68,8 +71,10 @@ public class PlayerOneController : MonoBehaviour
         if (Input.GetKeyUp("z"))
         { inputJumping = false; }
 
-        isOnPlatform = Physics2D.OverlapCircle(checkPlatform.position, 0.1f, layerMaskPlatform);
-        isWithLadder = Physics2D.OverlapCircle(checkLadder.position, 0.1f, layerMaskLadder);
+        checkPlatform = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.45f);
+        checkLadder = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+        isOnPlatform = Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform);
+        isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.1f, layerMaskLadder);
 
         //replace
         if (Input.GetKeyDown("r"))
@@ -79,11 +84,11 @@ public class PlayerOneController : MonoBehaviour
     {
         if (isOnLadder)
         {
-            rb2d.velocity = new Vector2(0f, inputYDirection * ySpeed);
+            rb2d.velocity = new Vector2(0f, inputYDirection * ladderSpeed);
             if (inputJumping)
             {
                 isOnLadder = false;
-                rb2d.velocity = new Vector2(inputXDirection * xSpeed * 0.5f, ySpeed);
+                rb2d.velocity = new Vector2(inputXDirection * moveSpeed * 0.5f, jumpSpeed);
             }
             if (isOnPlatform || !isWithLadder)
             { isOnLadder = false; }
@@ -104,10 +109,10 @@ public class PlayerOneController : MonoBehaviour
                 if (inputJumping)
                 {
                     isOnPlatform = false;
-                    rb2d.velocity = new Vector2(rb2d.velocity.x, ySpeed);
+                    rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
                 }
 
-                if (Mathf.Abs(rb2d.velocity.x) <= xSpeed)
+                if (Mathf.Abs(rb2d.velocity.x) <= moveSpeed)
                 { rb2d.AddForce(new Vector2(inputXDirection * moveForce, 0)); }
 
                 rb2d.AddForce(new Vector2(-1 * rb2d.velocity.x * collideForce, 0));
