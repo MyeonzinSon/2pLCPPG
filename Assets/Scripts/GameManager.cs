@@ -7,15 +7,26 @@ public class GameManager : MonoBehaviour
     public GameObject PlayerOne;
     public GameObject PlayerTwo;
 
-    int stage = 1;
-    int map = 1;
+    static public int stage;
+    static public int map;
     
+    void Start()
+    {
+        stage = 1;
+        map = 1;
+    }
     void Update()
     {
+        Debug.Log("map int = "+map);
         if (Input.GetKeyDown("r"))
         {
             RespawnOne();
         }
+    }
+
+    static public void MapChange()
+    {
+        map += 1;
     }
 
     void RespawnOne()
