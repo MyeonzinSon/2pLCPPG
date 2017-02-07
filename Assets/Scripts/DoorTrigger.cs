@@ -11,25 +11,24 @@ public class DoorTrigger : MonoBehaviour
     //temporarily set true for convenience
     bool enterTwo = true;
 
-    void Start()
+    void Awake()
     {
         PlayerOne = GameObject.Find("PlayerOne");
         PlayerTwo = GameObject.Find("PlayerTwo");
     }
-    void Update ()
+    void Update()
     {
-		if ((enterOne && enterTwo) && !GameManager.isChangingMap)
-        {
-            GameManager.isChangingMap = true;
-            GameManager.MapChange();
-        }
-	}
+
+    }
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject == PlayerOne)
         { enterOne = true; }
         if (other.gameObject == PlayerTwo)
         { enterTwo = true; }
+
+        if (enterOne && enterTwo)
+        { GameManager.MapChange(); }
     }
     void OnTriggerExit2D(Collider2D other)
     {

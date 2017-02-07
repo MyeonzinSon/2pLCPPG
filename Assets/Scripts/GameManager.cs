@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     static public GameObject MainCamera;
     static public GameObject Map;
 
+    static public Transform respawnPointOne;
+    static public Transform respawnPointTwo;
     static Rigidbody2D rb2dOne;
     static Rigidbody2D rb2dTwo;
 
@@ -16,7 +18,7 @@ public class GameManager : MonoBehaviour
     static public int stage;
     static public int map;
 
-    void Start()
+    void Awake()
     {
         PlayerOne = GameObject.Find("PlayerOne");
         PlayerTwo = GameObject.Find("PlayerTwo");
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour
         stage = 1;
         map = 1;
         isChangingMap = false;
+        ImportMap();
     }
     void Update()
     {
@@ -39,30 +42,28 @@ public class GameManager : MonoBehaviour
     static void ImportMap()
     {
         Map = GameObject.Find("Map" + map);
+        respawnPointOne = GameObject.Find("Map" + map + "/RespawnOne").transform;
     }
     static public void MapChange()
     {
         //test code start
-        if (map == 2)
+        if (map == 3)
         { map = 0; }
         //test code end
         map += 1;
         ImportMap();
         RespawnOne();
         MoveCamera();
-        isChangingMap = false;
     }
 
     static void RespawnOne()
     {
         Debug.Log("RespawnOne");
-        Vector2 respawn = Data.OutputRespawn(stage, map);
-        PlayerOne.transform.position = respawn;
+        PlayerOne.transform.position = new Vector2(respawnPointOne.position.x, respawnPointOne.position.y);
         rb2dOne.velocity = new Vector2(0f, 0f);
     }
     static void MoveCamera()
     {
-        Vector2 camera = Data.OutputCamera(stage, map);
-        MainCamera.transform.position = new Vector3(camera.x, camera.y, MainCamera.transform.position.z);
+        MainCamera.transform.position = new Vector3(Map.transform.position.x, Map.transform.position.y, MainCamera.transform.position.z);
     }
 }
