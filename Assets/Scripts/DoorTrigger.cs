@@ -8,6 +8,7 @@ public class DoorTrigger : MonoBehaviour
     GameObject PlayerTwo;
 
     bool enterOne;
+    //temporarily set true for convenience
     bool enterTwo = true;
 
     void Start()
@@ -17,17 +18,16 @@ public class DoorTrigger : MonoBehaviour
     }
     void Update ()
     {
-		if (enterOne && enterTwo)
+		if ((enterOne && enterTwo) && !GameManager.isChangingMap)
         {
-            Debug.Log("Hello!");
+            GameManager.isChangingMap = true;
             GameManager.MapChange();
         }
 	}
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Enter");
         if (other.gameObject == PlayerOne)
-        { enterOne = true; Debug.Log("bool true"); }
+        { enterOne = true; }
         if (other.gameObject == PlayerTwo)
         { enterTwo = true; }
     }
