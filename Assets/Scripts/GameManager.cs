@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         MoveCamera();
     }
 
-    static void RespawnOne()
+    public static void RespawnOne()
     {
         Debug.Log("RespawnOne");
         PlayerOne.transform.position = new Vector2(respawnPointOne.position.x, respawnPointOne.position.y);
