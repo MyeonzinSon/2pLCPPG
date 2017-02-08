@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PlayerOneController : MonoBehaviour
 {
+    public GameObject dummyObject;
+    GameObject existDummyObject;
+
     public float moveForce;
     public float collideForce;
     public float gravity;
@@ -16,7 +19,7 @@ public class PlayerOneController : MonoBehaviour
     private bool isFacingRight = false;
 
     bool inputJumping = false;
-    bool inputAbility = false;
+    bool isAbilityActive = false;
     int inputXDirection = 0;
     int inputYDirection = 0;
     int inputYCount = 0;
@@ -27,9 +30,15 @@ public class PlayerOneController : MonoBehaviour
     Rigidbody2D rb2d;
     float otherLadderX;
 
+    Transform groundChecker;
+    Transform ladderChecker;
+    RaycastHit2D hit;
+
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        groundChecker = transform.FindChild("GroundChecker");
+        ladderChecker = transform.FindChild("LadderChecker");
     }
     void Update()
     {
@@ -38,6 +47,10 @@ public class PlayerOneController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        // 유체이탈 상태에서 본체 스캔용
+        hit = Physics2D.Raycast(transform.position + new Vector3(0,Sign(gravity)*0.6f, 0), Vector2.up*Sign(gravity));
+        // if (hit.collider != null) Debug.Log(hit.collider.gameObject.name);
+
         if (isOnLadder)
         {
             SetVelocity(0f, inputYDirection * ladderSpeed);
@@ -65,7 +78,7 @@ public class PlayerOneController : MonoBehaviour
                 if (inputJumping)
                 {
                     isOnPlatform = false;
-                    SetVelocity(rb2d.velocity.x, jumpSpeed);
+                    SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                 }
 
                 if (Mathf.Abs(rb2d.velocity.x) <= moveSpeed)
@@ -88,6 +101,11 @@ public class PlayerOneController : MonoBehaviour
     {
         if (other.gameObject.tag == "Ladder")
         { otherLadderX = other.gameObject.transform.position.x; }
+
+        if (!isAbilityActive && existDummyObject != null && other.gameObject == existDummyObject)
+        {
+            Destroy(existDummyObject);
+        }
     }
 
     void InputKeys()
@@ -115,14 +133,14 @@ public class PlayerOneController : MonoBehaviour
         if (Input.GetKeyUp("z"))
         { inputJumping = false; }
         if (Input.GetKeyDown("x"))
-        { inputAbility = true; }
-        if (Input.GetKeyUp("x"))
-        { inputAbility = false; }
+        {
+            CastAbility();
+        }
     }
     void CollisionCheck()
     {
-        Vector2 checkPlatform = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - 0.45f);
-        Vector2 checkLadder = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+        Vector2 checkPlatform = groundChecker.position;
+        Vector2 checkLadder = ladderChecker.position;
         isOnPlatform = Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform);
         isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.1f, layerMaskLadder);
     }
@@ -140,8 +158,40 @@ public class PlayerOneController : MonoBehaviour
         else { return -1; }
     }
 
+    void CastAbility()
+    {
+        if (!isOnPlatform) return;
+        if (isOnLadder) return;
+        
+        if (!isAbilityActive)
+        {
+            isAbilityActive = true;
+            existDummyObject = Instantiate(dummyObject, transform.position, Quaternion.identity) as GameObject;
+            GetComponent<SpriteRenderer>().color -= new Color(0,0,0,0.4f);
+        }
+        else
+        {
+            if (hit.collider.gameObject != existDummyObject) return;
+            isAbilityActive = false;
+            GetComponent<SpriteRenderer>().color += new Color(0,0,0,0.4f);
+        }
+
+        transform.Rotate(new Vector3(180,0,0));
+        gravity *= -1;
+    }
+
     public void Die()
     {
         GameManager.RespawnOne();
+    }
+
+    public void Initialize()
+    {
+        rb2d.velocity = new Vector2(0f, 0f);
+        gravity = Mathf.Abs(gravity);
+        isAbilityActive = false;
+        GetComponent<SpriteRenderer>().color = Color.white;
+        transform.rotation = Quaternion.Euler(0,0,0);
+        Destroy(existDummyObject);
     }
 }

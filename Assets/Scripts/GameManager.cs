@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("RespawnOne");
         PlayerOne.transform.position = new Vector2(respawnPointOne.position.x, respawnPointOne.position.y);
-        rb2dOne.velocity = new Vector2(0f, 0f);
+        PlayerOne.GetComponent<PlayerOneController>().Initialize();
     }
     static void MoveCamera()
     {
