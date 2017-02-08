@@ -33,7 +33,7 @@ public class PlayerOneController : MonoBehaviour
     Transform groundChecker;
     Transform ladderChecker;
     RaycastHit2D hit;
-
+    
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -44,13 +44,32 @@ public class PlayerOneController : MonoBehaviour
     {
         InputKeys();
         CollisionCheck();
+        UpdateAbilityAvailableState();
     }
+
+    void UpdateAbilityAvailableState()
+    {
+        if (CanReturnToBody())
+            existDummyObject.GetComponent<SpriteRenderer>().color = Color.cyan;
+        else
+        {   
+            if (existDummyObject != null)    
+                existDummyObject.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+    }
+
+    bool CanReturnToBody()
+    {
+        if (existDummyObject == null) return false;
+        if (hit.collider == null) return false;
+        return hit.collider.gameObject == existDummyObject;
+    }
+
     void FixedUpdate()
     {
         // 유체이탈 상태에서 본체 스캔용
         hit = Physics2D.Raycast(transform.position + new Vector3(0,Sign(gravity)*0.6f, 0), Vector2.up*Sign(gravity));
-        // if (hit.collider != null) Debug.Log(hit.collider.gameObject.name);
-
+        
         if (isOnLadder)
         {
             SetVelocity(0f, inputYDirection * ladderSpeed);
@@ -171,7 +190,7 @@ public class PlayerOneController : MonoBehaviour
         }
         else
         {
-            if (hit.collider.gameObject != existDummyObject) return;
+            if (!CanReturnToBody()) return;
             isAbilityActive = false;
             GetComponent<SpriteRenderer>().color += new Color(0,0,0,0.4f);
         }
