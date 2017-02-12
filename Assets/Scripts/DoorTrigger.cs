@@ -8,13 +8,14 @@ public class DoorTrigger : MonoBehaviour
     GameObject PlayerTwo;
 
     bool enterOne;
-    //temporarily set true for convenience
-    bool enterTwo = true;
+    bool enterTwo;
 
     void Awake()
     {
         PlayerOne = GameObject.Find("PlayerOne");
         PlayerTwo = GameObject.Find("PlayerTwo");
+        enterOne = false;
+        enterTwo = false;
     }
     void Update()
     {
@@ -22,9 +23,9 @@ public class DoorTrigger : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject == PlayerOne)
+        if (other.gameObject.tag == "PlayerOne")
         { enterOne = true; }
-        if (other.gameObject == PlayerTwo)
+        if (other.gameObject.tag == "PlayerTwo")
         { enterTwo = true; }
 
         if (enterOne && enterTwo)
@@ -32,9 +33,9 @@ public class DoorTrigger : MonoBehaviour
     }
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject == PlayerOne)
+        if (other.gameObject.tag == "PlayerOne")
         { enterOne = false; }
-        if (other.gameObject == PlayerTwo)
+        if (other.gameObject.tag == "PlayerTwo")
         { enterTwo = false; }
     }
 }
