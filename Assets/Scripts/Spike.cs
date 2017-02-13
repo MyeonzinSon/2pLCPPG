@@ -12,16 +12,4 @@ public class Spike : MonoBehaviour
         if (other.gameObject.tag == "PlayerTwo")
             other.gameObject.GetComponent<PlayerTwoController>().Die();
     }
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

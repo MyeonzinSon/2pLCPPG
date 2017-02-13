@@ -23,13 +23,14 @@ public class PlayerTwoController : MonoBehaviour
 
     public LayerMask layerMaskPlatform;
     public LayerMask layerMaskLadder;
+    public LayerMask layerMaskOtherPlayer;
 
     Rigidbody2D rb2d;
     float otherLadderX;
 
     Transform groundChecker;
     Transform ladderChecker;
-    
+
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -55,7 +56,7 @@ public class PlayerTwoController : MonoBehaviour
             if (inputJumping)
             {
                 isOnLadder = false;
-                SetVelocity(inputXDirection * moveSpeed * 0.5f, jumpSpeed);
+                SetVelocity(inputXDirection * moveSpeed * 0.7f, jumpSpeed*0.7f);
             }
             if (isOnPlatform || !isWithLadder)
             { isOnLadder = false; }
@@ -85,7 +86,7 @@ public class PlayerTwoController : MonoBehaviour
                 { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
 
                 AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0);
-                if (Mathf.Abs(rb2d.velocity.x) <= collideForce/2)
+                if (Mathf.Abs(rb2d.velocity.x) <= collideForce / 2)
                 { SetVelocity(0, rb2d.velocity.y); }
             }
             else
@@ -134,7 +135,7 @@ public class PlayerTwoController : MonoBehaviour
     {
         Vector2 checkPlatform = groundChecker.position;
         Vector2 checkLadder = ladderChecker.position;
-        isOnPlatform = Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform);
+        isOnPlatform = (Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform) || Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskOtherPlayer));
         isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.1f, layerMaskLadder);
     }
 
@@ -165,6 +166,6 @@ public class PlayerTwoController : MonoBehaviour
     {
         rb2d.velocity = new Vector2(0f, 0f);
         isAbilityActive = false;
-        transform.rotation = Quaternion.Euler(0,0,0);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 }

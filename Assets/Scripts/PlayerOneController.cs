@@ -18,6 +18,7 @@ public class PlayerOneController : MonoBehaviour
     private bool isOnLadder = false;
     private bool isFacingRight = false;
 
+    bool isReturningFromAbility = false;
     bool inputJumping = false;
     bool isAbilityActive = false;
     int inputXDirection = 0;
@@ -26,6 +27,7 @@ public class PlayerOneController : MonoBehaviour
 
     public LayerMask layerMaskPlatform;
     public LayerMask layerMaskLadder;
+    public LayerMask layerMaskOtherPlayer;
 
     Rigidbody2D rb2d;
     float otherLadderX;
@@ -33,7 +35,7 @@ public class PlayerOneController : MonoBehaviour
     Transform groundChecker;
     Transform ladderChecker;
     RaycastHit2D hit;
-    
+
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -46,37 +48,19 @@ public class PlayerOneController : MonoBehaviour
         CollisionCheck();
         UpdateAbilityAvailableState();
     }
-
-    void UpdateAbilityAvailableState()
-    {
-        if (CanReturnToBody())
-            existDummyObject.GetComponent<SpriteRenderer>().color = Color.cyan;
-        else
-        {   
-            if (existDummyObject != null)    
-                existDummyObject.GetComponent<SpriteRenderer>().color = Color.white;
-        }
-    }
-
-    bool CanReturnToBody()
-    {
-        if (existDummyObject == null) return false;
-        if (hit.collider == null) return false;
-        return hit.collider.gameObject == existDummyObject;
-    }
-
     void FixedUpdate()
     {
         // 유체이탈 상태에서 본체 스캔용
-        hit = Physics2D.Raycast(transform.position + new Vector3(0,Sign(gravity)*0.6f, 0), Vector2.up*Sign(gravity));
-        
+        hit = Physics2D.Raycast(transform.position + new Vector3(0, Sign(gravity) * 0.6f, 0), Vector2.up * Sign(gravity));
+
         if (isOnLadder)
         {
             SetVelocity(0f, inputYDirection * ladderSpeed);
+            gameObject.transform.position = new Vector3(otherLadderX, gameObject.transform.position.y, gameObject.transform.position.z);
             if (inputJumping)
             {
                 isOnLadder = false;
-                SetVelocity(inputXDirection * moveSpeed * 0.5f, jumpSpeed);
+                SetVelocity(inputXDirection * moveSpeed*0.7f, Sign(gravity) * jumpSpeed * 0.7f);
             }
             if (isOnPlatform || !isWithLadder)
             { isOnLadder = false; }
@@ -89,7 +73,6 @@ public class PlayerOneController : MonoBehaviour
                 {
                     isOnLadder = true;
                     SetVelocity(0f, 0f);
-                    gameObject.transform.position = new Vector2(otherLadderX, gameObject.transform.position.y);
                 }
             }
             if (isOnPlatform)
@@ -106,11 +89,15 @@ public class PlayerOneController : MonoBehaviour
                 { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
 
                 AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0);
-                if (Mathf.Abs(rb2d.velocity.x) <= collideForce/2)
+                if (Mathf.Abs(rb2d.velocity.x) <= collideForce / 2)
                 { SetVelocity(0, rb2d.velocity.y); }
             }
             else
-            { AddVelocity(0, -gravity); }
+            {
+                AddVelocity(0, -gravity);
+                if (rb2d.velocity.x == 0f && !isReturningFromAbility)
+                { AddVelocity(inputXDirection * moveForce, 0f); }
+            }
         }
         //test force
         if (Input.GetKeyDown("q"))
@@ -121,10 +108,54 @@ public class PlayerOneController : MonoBehaviour
         if (other.gameObject.tag == "Ladder")
         { otherLadderX = other.gameObject.transform.position.x; }
 
-        if (!isAbilityActive && existDummyObject != null && other.gameObject == existDummyObject)
+        if (isReturningFromAbility && existDummyObject != null && other.gameObject == existDummyObject)
         {
+            isAbilityActive = false;
+            isReturningFromAbility = false;
+            GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, 0.4f);
             Destroy(existDummyObject);
         }
+    }
+
+    void UpdateAbilityAvailableState()
+    {
+        if (existDummyObject != null)
+        {
+            if (isReturningFromAbility)
+            { existDummyObject.GetComponent<SpriteRenderer>().color = Color.white; }
+            else if (CanReturnToBody() && isOnPlatform && !isOnLadder)
+            { existDummyObject.GetComponent<SpriteRenderer>().color = Color.green; }
+            else
+            { existDummyObject.GetComponent<SpriteRenderer>().color = Color.gray; }
+        }
+    }
+    bool CanReturnToBody()
+    {
+        if (existDummyObject == null) return false;
+        if (hit.collider == null) return false;
+        return hit.collider.gameObject == existDummyObject;
+    }
+    void CastAbility()
+    {
+        if (!isOnPlatform) return;
+        if (isOnLadder) return;
+
+        if (!isAbilityActive)
+        {
+            isAbilityActive = true;
+            existDummyObject = Instantiate(dummyObject, transform.position, Quaternion.identity) as GameObject;
+            GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.4f);
+        }
+        else
+        {
+            if (!CanReturnToBody()) return;
+            isReturningFromAbility = true;
+            SetVelocity(0f, 0f);
+            gameObject.transform.position = new Vector3(existDummyObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+        }
+
+        transform.Rotate(new Vector3(180, 0, 0));
+        gravity *= -1;
     }
 
     void InputKeys()
@@ -160,7 +191,7 @@ public class PlayerOneController : MonoBehaviour
     {
         Vector2 checkPlatform = groundChecker.position;
         Vector2 checkLadder = ladderChecker.position;
-        isOnPlatform = Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform);
+        isOnPlatform = (Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform) || Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskOtherPlayer));
         isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.1f, layerMaskLadder);
     }
 
@@ -177,28 +208,6 @@ public class PlayerOneController : MonoBehaviour
         else { return -1; }
     }
 
-    void CastAbility()
-    {
-        if (!isOnPlatform) return;
-        if (isOnLadder) return;
-        
-        if (!isAbilityActive)
-        {
-            isAbilityActive = true;
-            existDummyObject = Instantiate(dummyObject, transform.position, Quaternion.identity) as GameObject;
-            GetComponent<SpriteRenderer>().color -= new Color(0,0,0,0.4f);
-        }
-        else
-        {
-            if (!CanReturnToBody()) return;
-            isAbilityActive = false;
-            GetComponent<SpriteRenderer>().color += new Color(0,0,0,0.4f);
-        }
-
-        transform.Rotate(new Vector3(180,0,0));
-        gravity *= -1;
-    }
-
     public void Die()
     {
         GameManager.RespawnOne();
@@ -210,7 +219,7 @@ public class PlayerOneController : MonoBehaviour
         gravity = Mathf.Abs(gravity);
         isAbilityActive = false;
         GetComponent<SpriteRenderer>().color = Color.white;
-        transform.rotation = Quaternion.Euler(0,0,0);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
         Destroy(existDummyObject);
     }
 }
