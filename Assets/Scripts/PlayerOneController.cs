@@ -97,6 +97,12 @@ public class PlayerOneController : MonoBehaviour
                 AddVelocity(0, -gravity);
                 if (rb2d.velocity.x == 0f && !isReturningFromAbility)
                 { AddVelocity(inputXDirection * moveForce, 0f); }
+                if (rb2d.velocity == new Vector2(0f, 0f))
+                {
+                    AddVelocity(inputXDirection * moveForce, 0f);
+                    if (inputJumping)
+                    { AddVelocity(0f, jumpSpeed); }
+                }
             }
         }
         //test force
@@ -192,7 +198,7 @@ public class PlayerOneController : MonoBehaviour
         Vector2 checkPlatform = groundChecker.position;
         Vector2 checkLadder = ladderChecker.position;
         isOnPlatform = (Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform) || Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskOtherPlayer));
-        isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.1f, layerMaskLadder);
+        isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.25f, layerMaskLadder);
     }
 
     void SetVelocity(float x, float y)
