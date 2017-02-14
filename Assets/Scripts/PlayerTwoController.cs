@@ -166,6 +166,17 @@ public class PlayerTwoController : MonoBehaviour
         //test force
         if (Input.GetKeyDown("q"))
         { AddVelocity(30f, 0); }
+
+        // Animator
+        if ((rb2d.velocity.x != 0) && isOnPlatform)
+            GetComponent<Animator>().SetBool("isWalking", true);
+        else
+            GetComponent<Animator>().SetBool("isWalking", false);
+
+        if (isOnPlatform)
+            GetComponent<Animator>().SetBool("isGrounded", true);
+        else
+            GetComponent<Animator>().SetBool("isGrounded", false);
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
