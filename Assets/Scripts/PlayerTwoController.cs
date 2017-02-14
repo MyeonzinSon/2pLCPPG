@@ -1,6 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum Item { Null, NoteSeven }
+public class ItemSlot
+{
+    public Item item;
+    public int numOfItem;
+    public ItemSlot() : this(Item.Null, 0) { }
+    public ItemSlot(Item item, int num)
+    {
+        this.item = item;
+        this.numOfItem = num;
+    }
+    public bool IsBlank()
+    {
+        if (item == Item.Null) return true;
+        else return false;
+    }
+    public void GetItem(Item newItem)
+    {
+        if (IsBlank())
+        {
+            item = newItem;
+            numOfItem += 1;
+        }
+        else if (item == newItem)
+        { numOfItem += 1; }
+    }
+    public Item UseItem()
+    {
+        Item output = item;
+        if (numOfItem > 0)
+        {
+            numOfItem -= 1;
+            if (numOfItem == 0)
+            { item = Item.Null; }
+        }
+        return output;
+    }
+
+}
 public class PlayerTwoController : MonoBehaviour
 {
     public float moveForce;
@@ -18,6 +57,7 @@ public class PlayerTwoController : MonoBehaviour
     bool inputJumping = false;
     bool isAbilityActive = false;
     int inputXDirection = 0;
+    int lastXDirection = 0;
     int inputYDirection = 0;
     int inputYCount = 0;
 
@@ -31,11 +71,15 @@ public class PlayerTwoController : MonoBehaviour
     Transform groundChecker;
     Transform ladderChecker;
 
+    ItemSlot itemSlot;
+    public GameObject NoteSeven;
+
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         groundChecker = transform.FindChild("GroundChecker");
         ladderChecker = transform.FindChild("LadderChecker");
+        Initialize();
     }
     void Update()
     {
@@ -47,6 +91,24 @@ public class PlayerTwoController : MonoBehaviour
     {
 
     }
+    void CastAbility()
+    {
+        if (!itemSlot.IsBlank())
+        {
+            switch (itemSlot.UseItem())
+            {
+                case Item.Null:
+                    { break; }
+                case Item.NoteSeven:
+                    {
+                        Vector2 newPosition = new Vector2(gameObject.transform.position.x + lastXDirection * 0.45f, gameObject.transform.position.y);
+                        GameObject clone = Instantiate(NoteSeven, newPosition, gameObject.transform.rotation) as GameObject;
+                        clone.GetComponent<Rigidbody2D>().velocity = new Vector2(lastXDirection * moveSpeed, jumpSpeed);
+                        break;
+                    }
+            }
+        }
+    }
     void FixedUpdate()
     {
 
@@ -57,7 +119,7 @@ public class PlayerTwoController : MonoBehaviour
             if (inputJumping)
             {
                 isOnLadder = false;
-                SetVelocity(inputXDirection * moveSpeed * 0.7f, jumpSpeed*0.7f);
+                SetVelocity(inputXDirection * moveSpeed * 0.7f, jumpSpeed * 0.7f);
             }
             if (isOnPlatform || !isWithLadder)
             { isOnLadder = false; }
@@ -116,20 +178,20 @@ public class PlayerTwoController : MonoBehaviour
     void InputKeys()
     {
         if (Input.GetKeyDown("d"))
-        { inputXDirection += 1; }
+        { inputXDirection += 1; lastXDirection = 1; }
         if (Input.GetKeyUp("d"))
         { inputXDirection -= 1; }
         if (Input.GetKeyDown("a"))
-        { inputXDirection -= 1; }
+        { inputXDirection -= 1; lastXDirection = -1; }
         if (Input.GetKeyUp("a"))
         { inputXDirection += 1; }
 
         if (Input.GetKeyDown("w"))
-        { inputYDirection += 1; inputYCount += 1; }
+        { inputYDirection += 1; inputYCount += 1; lastXDirection = 0; }
         if (Input.GetKeyUp("w"))
         { inputYDirection -= 1; inputYCount -= 1; }
         if (Input.GetKeyDown("s"))
-        { inputYDirection -= 1; inputYCount += 1; }
+        { inputYDirection -= 1; inputYCount += 1; lastXDirection = 0; }
         if (Input.GetKeyUp("s"))
         { inputYDirection += 1; inputYCount -= 1; }
 
@@ -140,6 +202,13 @@ public class PlayerTwoController : MonoBehaviour
         if (Input.GetKeyDown("x"))
         {
             CastAbility();
+        }
+
+        //test item
+        if (Input.GetKey("e"))
+        {
+            itemSlot.GetItem(Item.NoteSeven);
+            Debug.Log("reloading!");
         }
     }
     void CollisionCheck()
@@ -163,11 +232,6 @@ public class PlayerTwoController : MonoBehaviour
         else { return -1; }
     }
 
-    void CastAbility()
-    {
-
-    }
-
     public void Die()
     {
         GameManager.RespawnTwo();
@@ -178,5 +242,6 @@ public class PlayerTwoController : MonoBehaviour
         rb2d.velocity = new Vector2(0f, 0f);
         isAbilityActive = false;
         transform.rotation = Quaternion.Euler(0, 0, 0);
+        itemSlot = new ItemSlot();
     }
 }
