@@ -16,7 +16,6 @@ public class PlayerOneController : MonoBehaviour
     private bool isOnPlatform = false;
     private bool isWithLadder = false;
     private bool isOnLadder = false;
-    private bool isFacingRight = false;
 
     bool isReturningFromAbility = false;
     bool inputJumping = false;
@@ -41,6 +40,7 @@ public class PlayerOneController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         groundChecker = transform.FindChild("GroundChecker");
         ladderChecker = transform.FindChild("LadderChecker");
+        Initialize();
     }
     void Update()
     {
@@ -221,7 +221,7 @@ public class PlayerOneController : MonoBehaviour
 
     public void Initialize()
     {
-        rb2d.velocity = new Vector2(0f, 0f);
+        SetVelocity(0f, 0f);
         gravity = Mathf.Abs(gravity);
         isAbilityActive = false;
         GetComponent<SpriteRenderer>().color = Color.white;

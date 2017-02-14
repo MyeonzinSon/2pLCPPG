@@ -52,10 +52,8 @@ public class PlayerTwoController : MonoBehaviour
     private bool isOnPlatform = false;
     private bool isWithLadder = false;
     private bool isOnLadder = false;
-    private bool isFacingRight = false;
 
     bool inputJumping = false;
-    bool isAbilityActive = false;
     int inputXDirection = 0;
     int lastXDirection = 0;
     int inputYDirection = 0;
@@ -239,9 +237,9 @@ public class PlayerTwoController : MonoBehaviour
 
     public void Initialize()
     {
-        rb2d.velocity = new Vector2(0f, 0f);
-        isAbilityActive = false;
+        SetVelocity(0f, 0f);
         transform.rotation = Quaternion.Euler(0, 0, 0);
         itemSlot = new ItemSlot();
+        lastXDirection = 0;
     }
 }
