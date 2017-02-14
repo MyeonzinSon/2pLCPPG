@@ -167,6 +167,18 @@ public class PlayerTwoController : MonoBehaviour
         if (Input.GetKeyDown("q"))
         { AddVelocity(30f, 0); }
 
+        // sprite direction
+        if (rb2d.velocity.x > 0)
+        {
+            Quaternion origin = transform.rotation;
+            transform.rotation = Quaternion.Euler(origin.x, 0, origin.z);
+        }
+        else if (rb2d.velocity.x < 0)
+        {
+            Quaternion origin = transform.rotation;
+            transform.rotation = Quaternion.Euler(origin.x, 180, origin.z);
+        }
+
         // Animator
         if ((rb2d.velocity.x != 0) && isOnPlatform)
             GetComponent<Animator>().SetBool("isWalking", true);
