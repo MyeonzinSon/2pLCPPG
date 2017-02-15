@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log("map int = " + map);
         if (Input.GetKeyDown("r"))
         {
             RespawnOne();
@@ -57,13 +56,11 @@ public class GameManager : MonoBehaviour
 
     public static void RespawnOne()
     {
-        Debug.Log("RespawnOne");
         PlayerOne.transform.position = new Vector2(respawnPointOne.position.x, respawnPointOne.position.y);
         PlayerOne.GetComponent<PlayerOneController>().Initialize();
     }
     public static void RespawnTwo()
     {
-        Debug.Log("RespawnTwo");
         PlayerTwo.transform.position = new Vector2(respawnPointTwo.position.x, respawnPointTwo.position.y);
         PlayerTwo.GetComponent<PlayerTwoController>().Initialize();
     }
