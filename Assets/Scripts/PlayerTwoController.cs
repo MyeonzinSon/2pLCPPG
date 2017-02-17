@@ -140,15 +140,6 @@ public class PlayerTwoController : MonoBehaviour
                     isOnPlatform = false;
                     SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                 }
-
-                if (Mathf.Abs(rb2d.velocity.x) <= moveSpeed)
-                { AddVelocity(inputXDirection * moveForce, 0); }
-                else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
-                { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
-
-                AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0);
-                if (Mathf.Abs(rb2d.velocity.x) <= collideForce / 2)
-                { SetVelocity(0, rb2d.velocity.y); }
             }
             else
             {
@@ -162,6 +153,15 @@ public class PlayerTwoController : MonoBehaviour
                     { AddVelocity(0f, jumpSpeed); }
                 }
             }
+
+            if (Mathf.Abs(rb2d.velocity.x) <= moveSpeed)
+            { AddVelocity(inputXDirection * moveForce, 0); }
+            else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
+            { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
+
+            AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0);
+            if (Mathf.Abs(rb2d.velocity.x) <= collideForce / 2)
+            { SetVelocity(0, rb2d.velocity.y); }
         }
         //test force
         if (Input.GetKeyDown("q"))
