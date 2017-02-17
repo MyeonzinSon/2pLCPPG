@@ -110,15 +110,15 @@ public class PlayerOneController : MonoBehaviour
         { AddVelocity(30f, 0); }
 
         // sprite direction
-        if (rb2d.velocity.x > 0)
+        if ((!isAbilityActive && rb2d.velocity.x > 0) || (isAbilityActive && rb2d.velocity.x < 0))
         {
             Quaternion origin = transform.rotation;
-            transform.rotation = Quaternion.Euler(origin.x, 180, origin.z);
+            transform.rotation = Quaternion.Euler(origin.eulerAngles.x, 180, origin.eulerAngles.z);
         }
-        else if (rb2d.velocity.x < 0)
+        else if ((!isAbilityActive && rb2d.velocity.x < 0) || (isAbilityActive && rb2d.velocity.x > 0))
         {
             Quaternion origin = transform.rotation;
-            transform.rotation = Quaternion.Euler(origin.x, 0, origin.z);
+            transform.rotation = Quaternion.Euler(origin.eulerAngles.x, 0, origin.eulerAngles.z);
         }
 
         // Animator
