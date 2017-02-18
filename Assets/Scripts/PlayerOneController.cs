@@ -131,6 +131,16 @@ public class PlayerOneController : MonoBehaviour
             GetComponent<Animator>().SetBool("isGrounded", true);
         else
             GetComponent<Animator>().SetBool("isGrounded", false);
+
+        if (rb2d.velocity.y != 0)
+            GetComponent<Animator>().SetBool("isMovingVertical", true);
+        else
+            GetComponent<Animator>().SetBool("isMovingVertical", false);
+
+        if (isOnLadder)
+            GetComponent<Animator>().SetBool("isOnLadder", true);
+        else
+            GetComponent<Animator>().SetBool("isOnLadder", false);
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
