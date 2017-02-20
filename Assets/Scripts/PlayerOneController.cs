@@ -26,7 +26,6 @@ public class PlayerOneController : MonoBehaviour
 
     public LayerMask layerMaskPlatform;
     public LayerMask layerMaskLadder;
-    public LayerMask layerMaskOtherPlayer;
 
     Rigidbody2D rb2d;
     float otherLadderX;
@@ -230,7 +229,7 @@ public class PlayerOneController : MonoBehaviour
     {
         Vector2 checkPlatform = groundChecker.position;
         Vector2 checkLadder = ladderChecker.position;
-        isOnPlatform = (Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform) || Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskOtherPlayer));
+        isOnPlatform = Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform);
         isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.25f, layerMaskLadder);
     }
 
@@ -257,8 +256,9 @@ public class PlayerOneController : MonoBehaviour
         SetVelocity(0f, 0f);
         gravity = Mathf.Abs(gravity);
         isAbilityActive = false;
+        isOnLadder = false;
         GetComponent<SpriteRenderer>().color = Color.white;
-        transform.rotation = Quaternion.Euler(0, 0, 0);
+        transform.rotation = Quaternion.Euler(0, 180, 0);
         Destroy(existDummyObject);
     }
 }

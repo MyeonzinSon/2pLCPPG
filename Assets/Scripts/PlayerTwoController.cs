@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum Item { Null, NoteSeven }
+public enum Item { Null, NoteSeven, BluePill, BallotPaper }
 public class ItemSlot
 {
     public Item item;
@@ -61,7 +61,6 @@ public class PlayerTwoController : MonoBehaviour
 
     public LayerMask layerMaskPlatform;
     public LayerMask layerMaskLadder;
-    public LayerMask layerMaskOtherPlayer;
 
     Rigidbody2D rb2d;
     float otherLadderX;
@@ -235,18 +234,35 @@ public class PlayerTwoController : MonoBehaviour
             CastAbility();
         }
 
-        //test item
+        //test item {
         if (Input.GetKey("e"))
         {
-            itemSlot.GetItem(Item.NoteSeven);
-            Debug.Log("reloading!");
+            if (!itemSlot.IsBlank())
+            {
+                itemSlot.GetItem(itemSlot.item);
+                Debug.Log("reloading!");
+            }
         }
+        if (Input.GetKeyDown("g"))
+        {
+            switch (itemSlot.item)
+            {
+                case Item.Null: itemSlot.item = Item.NoteSeven; break;
+                case Item.NoteSeven: itemSlot.item = Item.BallotPaper; break;
+                case Item.BallotPaper: itemSlot.item = Item.BluePill; break;
+                case Item.BluePill: itemSlot.item = Item.NoteSeven; break;
+            }
+            itemSlot.numOfItem = 1;
+            Debug.Log(itemSlot.item);
+        }
+        //test item }
+
     }
     void CollisionCheck()
     {
         Vector2 checkPlatform = groundChecker.position;
         Vector2 checkLadder = ladderChecker.position;
-        isOnPlatform = (Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform) || Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskOtherPlayer));
+        isOnPlatform = Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform);
         isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.25f, layerMaskLadder);
     }
 
@@ -271,6 +287,7 @@ public class PlayerTwoController : MonoBehaviour
     public void Initialize()
     {
         SetVelocity(0f, 0f);
+        isOnLadder = false;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         itemSlot = new ItemSlot();
         lastXDirection = 0;
