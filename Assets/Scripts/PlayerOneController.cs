@@ -100,8 +100,9 @@ public class PlayerOneController : MonoBehaviour
             else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
             { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
 
-            AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0);
-            if (Mathf.Abs(rb2d.velocity.x) <= collideForce / 2)
+            if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
+            { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
+            else
             { SetVelocity(0, rb2d.velocity.y); }
         }
         //test force
@@ -109,12 +110,12 @@ public class PlayerOneController : MonoBehaviour
         { AddVelocity(30f, 0); }
 
         // sprite direction
-        if ((!isAbilityActive && rb2d.velocity.x > 0) || (isAbilityActive && rb2d.velocity.x < 0))
+        if ((!isAbilityActive && rb2d.velocity.x > collideForce/2) || (isAbilityActive && rb2d.velocity.x < -collideForce/2))
         {
             Quaternion origin = transform.rotation;
             transform.rotation = Quaternion.Euler(origin.eulerAngles.x, 180, origin.eulerAngles.z);
         }
-        else if ((!isAbilityActive && rb2d.velocity.x < 0) || (isAbilityActive && rb2d.velocity.x > 0))
+        else if ((!isAbilityActive && rb2d.velocity.x < -collideForce/2) || (isAbilityActive && rb2d.velocity.x > collideForce))
         {
             Quaternion origin = transform.rotation;
             transform.rotation = Quaternion.Euler(origin.eulerAngles.x, 0, origin.eulerAngles.z);

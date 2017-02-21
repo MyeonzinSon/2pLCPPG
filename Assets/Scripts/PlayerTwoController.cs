@@ -158,8 +158,9 @@ public class PlayerTwoController : MonoBehaviour
             else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
             { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
 
-            AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0);
-            if (Mathf.Abs(rb2d.velocity.x) <= collideForce / 2)
+            if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
+            { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
+            else
             { SetVelocity(0, rb2d.velocity.y); }
         }
         //test force
@@ -167,12 +168,12 @@ public class PlayerTwoController : MonoBehaviour
         { AddVelocity(30f, 0); }
 
         // sprite direction
-        if (rb2d.velocity.x > 0)
+        if (rb2d.velocity.x > collideForce/2)
         {
             Quaternion origin = transform.rotation;
             transform.rotation = Quaternion.Euler(origin.x, 0, origin.z);
         }
-        else if (rb2d.velocity.x < 0)
+        else if (rb2d.velocity.x < -collideForce/2)
         {
             Quaternion origin = transform.rotation;
             transform.rotation = Quaternion.Euler(origin.x, 180, origin.z);
