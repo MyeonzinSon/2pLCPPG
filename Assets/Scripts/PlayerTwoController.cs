@@ -70,14 +70,23 @@ public class PlayerTwoController : MonoBehaviour
 
     ItemSlot itemSlot;
     public GameObject NoteSeven;
+    float initMoveSpeed;
+    float initJumpSpeed;
+    public float bluePillMoveSpeed;
+    public float bluePillJumpSpeed;
+    public float bluePillTime;
+    int bluePillCount;
 
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         groundChecker = transform.FindChild("GroundChecker");
         ladderChecker = transform.FindChild("LadderChecker");
-        Initialize();
+        initMoveSpeed = moveSpeed;
+        initJumpSpeed = jumpSpeed;
     }
+    void Start()
+    { Initialize(); }
     void Update()
     {
         InputKeys();
@@ -103,7 +112,41 @@ public class PlayerTwoController : MonoBehaviour
                         clone.GetComponent<Rigidbody2D>().velocity = new Vector2(lastXDirection * moveSpeed, jumpSpeed);
                         break;
                     }
+                case Item.BluePill:
+                    {
+                        StartCoroutine(BluePill());
+                        break;
+                    }
+                case Item.BallotPaper:
+                    {
+                        if (isOnLadder)
+                        {
+                            isOnLadder = false;
+                            SetVelocity(inputXDirection * moveSpeed * 0.7f, jumpSpeed * 0.7f);
+                        }
+                        else
+                        {
+                            isOnPlatform = false;
+                            SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
+                        }
+                        break;
+                    }
             }
+        }
+    }
+    IEnumerator BluePill()
+    {
+        bluePillCount += 1;
+        GetComponent<SpriteRenderer>().color = Color.blue;
+        moveSpeed = bluePillMoveSpeed;
+        jumpSpeed = bluePillJumpSpeed;
+        yield return new WaitForSeconds(bluePillTime);
+        bluePillCount -= 1;
+        if (bluePillCount == 0)
+        {
+            GetComponent<SpriteRenderer>().color = Color.white;
+            moveSpeed = initMoveSpeed;
+            jumpSpeed = initJumpSpeed;
         }
     }
     void FixedUpdate()
@@ -168,12 +211,12 @@ public class PlayerTwoController : MonoBehaviour
         { AddVelocity(30f, 0); }
 
         // sprite direction
-        if (rb2d.velocity.x > collideForce/2)
+        if (rb2d.velocity.x > collideForce / 2)
         {
             Quaternion origin = transform.rotation;
             transform.rotation = Quaternion.Euler(origin.x, 0, origin.z);
         }
-        else if (rb2d.velocity.x < -collideForce/2)
+        else if (rb2d.velocity.x < -collideForce / 2)
         {
             Quaternion origin = transform.rotation;
             transform.rotation = Quaternion.Euler(origin.x, 180, origin.z);
@@ -241,7 +284,6 @@ public class PlayerTwoController : MonoBehaviour
             if (!itemSlot.IsBlank())
             {
                 itemSlot.GetItem(itemSlot.item);
-                Debug.Log("reloading!");
             }
         }
         if (Input.GetKeyDown("g"))
@@ -287,10 +329,13 @@ public class PlayerTwoController : MonoBehaviour
 
     public void Initialize()
     {
+        moveSpeed = initMoveSpeed;
+        jumpSpeed = initJumpSpeed;
         SetVelocity(0f, 0f);
         isOnLadder = false;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         itemSlot = new ItemSlot();
         lastXDirection = 0;
+        bluePillCount = 0;
     }
 }

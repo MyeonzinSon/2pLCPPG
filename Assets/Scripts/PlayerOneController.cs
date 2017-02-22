@@ -39,8 +39,9 @@ public class PlayerOneController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         groundChecker = transform.FindChild("GroundChecker");
         ladderChecker = transform.FindChild("LadderChecker");
-        Initialize();
     }
+    void Start()
+    { Initialize(); }
     void Update()
     {
         InputKeys();
@@ -91,19 +92,21 @@ public class PlayerOneController : MonoBehaviour
                 {
                     AddVelocity(inputXDirection * moveForce, 0f);
                     if (inputJumping)
-                    { AddVelocity(0f, jumpSpeed); }
+                    { AddVelocity(0f, jumpSpeed); Debug.Log("yah!"); }
                 }
             }
+            if (!isReturningFromAbility)
+            {
+                if (Mathf.Abs(rb2d.velocity.x) <= moveSpeed)
+                { AddVelocity(inputXDirection * moveForce, 0); }
+                else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
+                { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
 
-            if (Mathf.Abs(rb2d.velocity.x) <= moveSpeed)
-            { AddVelocity(inputXDirection * moveForce, 0); }
-            else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
-            { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
-
-            if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
-            { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
-            else
-            { SetVelocity(0, rb2d.velocity.y); }
+                if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
+                { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
+                else
+                { SetVelocity(0, rb2d.velocity.y); }
+            }
         }
         //test force
         if (Input.GetKeyDown("q"))
@@ -182,8 +185,10 @@ public class PlayerOneController : MonoBehaviour
         if (!isAbilityActive)
         {
             isAbilityActive = true;
-            existDummyObject = Instantiate(dummyObject, transform.position, Quaternion.identity) as GameObject;
+            existDummyObject = Instantiate(dummyObject, transform.position, transform.rotation) as GameObject;
             GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.4f);
+            Quaternion origin = transform.rotation;
+            transform.rotation = Quaternion.Euler(180, origin.eulerAngles.y, origin.eulerAngles.z);
         }
         else
         {
@@ -191,9 +196,8 @@ public class PlayerOneController : MonoBehaviour
             isReturningFromAbility = true;
             SetVelocity(0f, 0f);
             gameObject.transform.position = new Vector3(existDummyObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+            transform.rotation = existDummyObject.transform.rotation;
         }
-
-        transform.Rotate(new Vector3(180, 0, 0));
         gravity *= -1;
     }
 
@@ -257,6 +261,7 @@ public class PlayerOneController : MonoBehaviour
         SetVelocity(0f, 0f);
         gravity = Mathf.Abs(gravity);
         isAbilityActive = false;
+        isReturningFromAbility = false;
         isOnLadder = false;
         GetComponent<SpriteRenderer>().color = Color.white;
         transform.rotation = Quaternion.Euler(0, 180, 0);

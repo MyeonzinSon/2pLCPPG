@@ -9,6 +9,7 @@ public class NoteSeven : MonoBehaviour
     public float explosionRadius;
     public float explosionForceX;
     public float explosionForceY;
+    public float explosionTime;
     public LayerMask layerMasks;
 
     void Start()
@@ -17,7 +18,7 @@ public class NoteSeven : MonoBehaviour
     }
     IEnumerator Countdown()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(explosionTime);
         Explode();
     }
     void Explode()
