@@ -182,6 +182,10 @@ public class PlayerTwoController : MonoBehaviour
                     isOnPlatform = false;
                     SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                 }
+                if (Mathf.Abs(rb2d.velocity.y) <= (jumpSpeed - Mathf.Abs(gravity))/10)
+                {
+                    SetVelocity(rb2d.velocity.x, 0f);
+                }
             }
             else
             {
@@ -321,7 +325,6 @@ public class PlayerTwoController : MonoBehaviour
         { return 1; }
         else { return -1; }
     }
-
     public void Die()
     {
         GameManager.RespawnTwo();
@@ -329,12 +332,14 @@ public class PlayerTwoController : MonoBehaviour
 
     public void Initialize()
     {
+        StopCoroutine(BluePill());
         moveSpeed = initMoveSpeed;
         jumpSpeed = initJumpSpeed;
         SetVelocity(0f, 0f);
         isOnLadder = false;
         transform.rotation = Quaternion.Euler(0, 0, 0);
         itemSlot = new ItemSlot();
+        GetComponent<SpriteRenderer>().color = Color.white;
         lastXDirection = 0;
         bluePillCount = 0;
     }

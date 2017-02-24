@@ -82,18 +82,20 @@ public class PlayerOneController : MonoBehaviour
                     isOnPlatform = false;
                     SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                 }
+                if (Mathf.Abs(rb2d.velocity.y) <= (jumpSpeed - Mathf.Abs(gravity))/10)
+                {
+                    SetVelocity(rb2d.velocity.x, 0f);
+                }
+                if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
+                { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
+                else
+                { SetVelocity(0, rb2d.velocity.y); }
             }
             else
             {
                 AddVelocity(0, -gravity);
                 if (rb2d.velocity.x == 0f && !isReturningFromAbility)
                 { AddVelocity(inputXDirection * moveForce, 0f); }
-                if (rb2d.velocity == new Vector2(0f, 0f))
-                {
-                    AddVelocity(inputXDirection * moveForce, 0f);
-                    if (inputJumping)
-                    { AddVelocity(0f, jumpSpeed); Debug.Log("yah!"); }
-                }
             }
             if (!isReturningFromAbility)
             {
@@ -102,10 +104,6 @@ public class PlayerOneController : MonoBehaviour
                 else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
                 { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
 
-                if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
-                { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
-                else
-                { SetVelocity(0, rb2d.velocity.y); }
             }
         }
         //test force
