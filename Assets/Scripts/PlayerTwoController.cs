@@ -38,7 +38,6 @@ public class ItemSlot
         }
         return output;
     }
-
 }
 public class PlayerTwoController : MonoBehaviour
 {
@@ -352,13 +351,14 @@ public class PlayerTwoController : MonoBehaviour
         jumpSpeed = initJumpSpeed;
         SetVelocity(0f, 0f);
         isOnLadder = false;
+        inputJumping = false;
         inputXDirection = 0;
+        inputYDirection = 0;
+        inputYCount = 0;
         if (Input.GetKey("d"))
         { inputXDirection += 1; }
         if (Input.GetKey("a"))
         { inputXDirection -= 1; }
-        inputYDirection = 0;
-        inputYCount = 0;
         if (Input.GetKey("w"))
         { inputYDirection += 1; inputYCount += 1; }
         if (Input.GetKey("s"))

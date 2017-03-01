@@ -5,6 +5,19 @@ using UnityEngine;
 public class PoisonedNeedle : MonoBehaviour
 {
     public float speed;
+    public void Initialize()
+    {
+        Destroy(gameObject);
+    }
+    void Start()
+    {
+        StartCoroutine(Suicide());
+    }
+    IEnumerator Suicide()
+    {
+        yield return new WaitForSeconds(36 / speed);
+        Destroy(gameObject);
+    }
     void FixedUpdate()
     {
         Vector3 position = transform.position;

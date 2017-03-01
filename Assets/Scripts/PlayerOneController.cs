@@ -269,13 +269,14 @@ public class PlayerOneController : MonoBehaviour
         isAbilityActive = false;
         isReturningFromAbility = false;
         isOnLadder = false;
+        inputJumping = false;
         inputXDirection = 0;
+        inputYDirection = 0;
+        inputYCount = 0;
         if (Input.GetKey("right"))
         { inputXDirection += 1; }
         if (Input.GetKey("left"))
         { inputXDirection -= 1; }
-        inputYDirection = 0;
-        inputYCount = 0;
         if(Input.GetKey("up"))
         { inputYDirection += 1; inputYCount += 1; }
         if (Input.GetKey("down"))
