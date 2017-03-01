@@ -19,7 +19,7 @@ public class PlayerOneController : MonoBehaviour
 
     bool isReturningFromAbility = false;
     bool inputJumping = false;
-    bool isAbilityActive = false;
+    public bool isAbilityActive = false;
     int inputXDirection = 0;
     int inputYDirection = 0;
     int inputYCount = 0;
@@ -82,10 +82,10 @@ public class PlayerOneController : MonoBehaviour
                     isOnPlatform = false;
                     SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                 }
-                if (Mathf.Abs(rb2d.velocity.y) <= (jumpSpeed - Mathf.Abs(gravity))/2)
-                {
-                    SetVelocity(rb2d.velocity.x, 0f);
-                }
+                // if (Mathf.Abs(rb2d.velocity.y) <= (jumpSpeed - Mathf.Abs(gravity))/2)
+                // {
+                //     SetVelocity(rb2d.velocity.x, 0f);
+                // }
             }
             else
             {
