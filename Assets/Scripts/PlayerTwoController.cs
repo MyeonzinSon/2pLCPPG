@@ -137,13 +137,14 @@ public class PlayerTwoController : MonoBehaviour
     IEnumerator BluePill()
     {
         bluePillCount += 1;
-        GetComponent<SpriteRenderer>().color = Color.blue;
+        GetComponent<SpriteRenderer>().color = new Color(0.5f, 0.7f, 0.9f, 1);
         moveSpeed = bluePillMoveSpeed;
         jumpSpeed = bluePillJumpSpeed;
         yield return new WaitForSeconds(bluePillTime);
         bluePillCount -= 1;
-        if (bluePillCount == 0)
+        if (bluePillCount < 1)
         {
+            bluePillCount = 0;
             GetComponent<SpriteRenderer>().color = Color.white;
             moveSpeed = initMoveSpeed;
             jumpSpeed = initJumpSpeed;
@@ -182,7 +183,7 @@ public class PlayerTwoController : MonoBehaviour
                     isOnPlatform = false;
                     SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                 }
-                if (Mathf.Abs(rb2d.velocity.y) <= (jumpSpeed - Mathf.Abs(gravity))/10)
+                if (Mathf.Abs(rb2d.velocity.y) <= (jumpSpeed - Mathf.Abs(gravity))/2)
                 {
                     SetVelocity(rb2d.velocity.x, 0f);
                 }
@@ -210,9 +211,6 @@ public class PlayerTwoController : MonoBehaviour
             else
             { SetVelocity(0, rb2d.velocity.y); }
         }
-        //test force
-        if (Input.GetKeyDown("q"))
-        { AddVelocity(30f, 0); }
 
         // sprite direction
         if (rb2d.velocity.x > collideForce / 2)
@@ -327,9 +325,9 @@ public class PlayerTwoController : MonoBehaviour
     }
     public void Die()
     {
-        GameManager.RespawnTwo();
+        gameObject.SetActive(false);
+        GameManager.RestartMap();
     }
-
     public void Initialize()
     {
         StopCoroutine(BluePill());
@@ -337,6 +335,17 @@ public class PlayerTwoController : MonoBehaviour
         jumpSpeed = initJumpSpeed;
         SetVelocity(0f, 0f);
         isOnLadder = false;
+        inputXDirection = 0;
+        if (Input.GetKey("d"))
+        { inputXDirection += 1; }
+        if (Input.GetKey("a"))
+        { inputXDirection -= 1; }
+        inputYDirection = 0;
+        inputYCount = 0;
+        if (Input.GetKey("w"))
+        { inputYDirection += 1; inputYCount += 1; }
+        if (Input.GetKey("d"))
+        { inputYDirection -= 1; inputYCount += 1; }
         transform.rotation = Quaternion.Euler(0, 0, 0);
         itemSlot = new ItemSlot();
         GetComponent<SpriteRenderer>().color = Color.white;

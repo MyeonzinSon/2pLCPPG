@@ -82,14 +82,10 @@ public class PlayerOneController : MonoBehaviour
                     isOnPlatform = false;
                     SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                 }
-                if (Mathf.Abs(rb2d.velocity.y) <= (jumpSpeed - Mathf.Abs(gravity))/10)
+                if (Mathf.Abs(rb2d.velocity.y) <= (jumpSpeed - Mathf.Abs(gravity))/2)
                 {
                     SetVelocity(rb2d.velocity.x, 0f);
                 }
-                if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
-                { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
-                else
-                { SetVelocity(0, rb2d.velocity.y); }
             }
             else
             {
@@ -105,10 +101,12 @@ public class PlayerOneController : MonoBehaviour
                 { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
 
             }
+
+            if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
+            { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
+            else
+            { SetVelocity(0, rb2d.velocity.y); }
         }
-        //test force
-        if (Input.GetKeyDown("q"))
-        { AddVelocity(30f, 0); }
 
         // sprite direction
         if ((!isAbilityActive && rb2d.velocity.x > collideForce/2) || (isAbilityActive && rb2d.velocity.x < -collideForce/2))
@@ -260,9 +258,9 @@ public class PlayerOneController : MonoBehaviour
 
     public void Die()
     {
-        GameManager.RespawnOne();
+        gameObject.SetActive(false);
+        GameManager.RestartMap();
     }
-
     public void Initialize()
     {
         SetVelocity(0f, 0f);
@@ -270,6 +268,17 @@ public class PlayerOneController : MonoBehaviour
         isAbilityActive = false;
         isReturningFromAbility = false;
         isOnLadder = false;
+        inputXDirection = 0;
+        if (Input.GetKey("right"))
+        { inputXDirection += 1; }
+        if (Input.GetKey("left"))
+        { inputXDirection -= 1; }
+        inputYDirection = 0;
+        inputYCount = 0;
+        if(Input.GetKey("up"))
+        { inputYDirection += 1; inputYCount += 1; }
+        if (Input.GetKey("down"))
+        { inputYDirection -= 1; inputYCount += 1; }
         GetComponent<SpriteRenderer>().color = Color.white;
         Vector3 origin = groundChecker.localPosition;
         groundChecker.localPosition = new Vector3(origin.x, -1 * Mathf.Abs(origin.y), origin.z);
