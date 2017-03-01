@@ -38,7 +38,6 @@ public class ItemSlot
         }
         return output;
     }
-
 }
 public class PlayerTwoController : MonoBehaviour
 {
@@ -61,6 +60,9 @@ public class PlayerTwoController : MonoBehaviour
 
     public LayerMask layerMaskPlatform;
     public LayerMask layerMaskLadder;
+    public LayerMask layerMaskItemNoteSeven;
+    public LayerMask layerMaskItemBallotPaper;
+    public LayerMask layerMaskItemBluePill;
 
     Rigidbody2D rb2d;
     float otherLadderX;
@@ -99,7 +101,10 @@ public class PlayerTwoController : MonoBehaviour
     }
     void CastAbility()
     {
-        if (!itemSlot.IsBlank())
+        if (PickUpItem(layerMaskItemNoteSeven, Item.NoteSeven)) { }
+        else if (PickUpItem(layerMaskItemBallotPaper, Item.BallotPaper)) { }
+        else if (PickUpItem(layerMaskItemBluePill, Item.BluePill)) { }
+        else if (!itemSlot.IsBlank())
         {
             switch (itemSlot.UseItem())
             {
@@ -133,6 +138,17 @@ public class PlayerTwoController : MonoBehaviour
                     }
             }
         }
+    }
+    bool PickUpItem(LayerMask layerMask, Item item)
+    {
+        Collider2D[] array = Physics2D.OverlapCircleAll(transform.position, 0.1f, layerMask);
+        if (array.Length > 0 && (itemSlot.item == item || itemSlot.numOfItem == 0))
+        {
+            array[0].gameObject.SetActive(false);
+            itemSlot.GetItem(item);
+            return true;
+        }
+        else { return false; }
     }
     IEnumerator BluePill()
     {
@@ -183,10 +199,6 @@ public class PlayerTwoController : MonoBehaviour
                     isOnPlatform = false;
                     SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                 }
-                // if (Mathf.Abs(rb2d.velocity.y) <= (jumpSpeed - Mathf.Abs(gravity))/2)
-                // {
-                //     SetVelocity(rb2d.velocity.x, 0f);
-                // }
             }
             else
             {
@@ -335,16 +347,17 @@ public class PlayerTwoController : MonoBehaviour
         jumpSpeed = initJumpSpeed;
         SetVelocity(0f, 0f);
         isOnLadder = false;
+        inputJumping = false;
         inputXDirection = 0;
+        inputYDirection = 0;
+        inputYCount = 0;
         if (Input.GetKey("d"))
         { inputXDirection += 1; }
         if (Input.GetKey("a"))
         { inputXDirection -= 1; }
-        inputYDirection = 0;
-        inputYCount = 0;
         if (Input.GetKey("w"))
         { inputYDirection += 1; inputYCount += 1; }
-        if (Input.GetKey("d"))
+        if (Input.GetKey("s"))
         { inputYDirection -= 1; inputYCount += 1; }
         transform.rotation = Quaternion.Euler(0, 0, 0);
         itemSlot = new ItemSlot();

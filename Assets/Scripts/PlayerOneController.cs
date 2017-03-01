@@ -69,7 +69,7 @@ public class PlayerOneController : MonoBehaviour
         {
             if (isWithLadder)
             {
-                if (inputYCount > 0)
+                if (inputYCount > 0 && !isAbilityActive)
                 {
                     isOnLadder = true;
                     SetVelocity(0f, 0f);
@@ -82,10 +82,6 @@ public class PlayerOneController : MonoBehaviour
                     isOnPlatform = false;
                     SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                 }
-                // if (Mathf.Abs(rb2d.velocity.y) <= (jumpSpeed - Mathf.Abs(gravity))/2)
-                // {
-                //     SetVelocity(rb2d.velocity.x, 0f);
-                // }
             }
             else
             {
@@ -109,12 +105,12 @@ public class PlayerOneController : MonoBehaviour
         }
 
         // sprite direction
-        if ((!isAbilityActive && rb2d.velocity.x > collideForce/2) || (isAbilityActive && rb2d.velocity.x < -collideForce/2))
+        if (rb2d.velocity.x > collideForce/2) 
         {
             Quaternion origin = transform.rotation;
             transform.rotation = Quaternion.Euler(origin.eulerAngles.x, 180, origin.eulerAngles.z);
         }
-        else if ((!isAbilityActive && rb2d.velocity.x < -collideForce/2) || (isAbilityActive && rb2d.velocity.x > collideForce))
+        else if (rb2d.velocity.x < -collideForce/2)
         {
             Quaternion origin = transform.rotation;
             transform.rotation = Quaternion.Euler(origin.eulerAngles.x, 0, origin.eulerAngles.z);
@@ -185,6 +181,7 @@ public class PlayerOneController : MonoBehaviour
 
         if (!isAbilityActive)
         {
+            SetVelocity(0f, 0f);
             isAbilityActive = true;
             existDummyObject = Instantiate(dummyObject, transform.position, transform.rotation) as GameObject;
             // GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.4f);
@@ -268,13 +265,14 @@ public class PlayerOneController : MonoBehaviour
         isAbilityActive = false;
         isReturningFromAbility = false;
         isOnLadder = false;
+        inputJumping = false;
         inputXDirection = 0;
+        inputYDirection = 0;
+        inputYCount = 0;
         if (Input.GetKey("right"))
         { inputXDirection += 1; }
         if (Input.GetKey("left"))
         { inputXDirection -= 1; }
-        inputYDirection = 0;
-        inputYCount = 0;
         if(Input.GetKey("up"))
         { inputYDirection += 1; inputYCount += 1; }
         if (Input.GetKey("down"))

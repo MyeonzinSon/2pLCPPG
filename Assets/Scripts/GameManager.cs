@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     static public Transform respawnPointOne;
     static public Transform respawnPointTwo;
+    static RestartSetActive[] arrayOfSetActive;
+    static RestartDestroy[] arrayOfDestroy;
 
     static public int stage;
     static public int map;
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
         Map = GameObject.Find("Map" + map);
         respawnPointOne = GameObject.Find("Map" + map + "/RespawnOne").transform;
         respawnPointTwo = GameObject.Find("Map" + map + "/RespawnTwo").transform;
+        arrayOfSetActive = Map.GetComponentsInChildren<RestartSetActive>();
     }
     static public void MapChange()
     {
@@ -63,18 +66,31 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         RespawnOne();
         RespawnTwo();
+        SetActiveOnRestart();
+        DestroyOnRestart();
+    }
+    public static void SetActiveOnRestart()
+    {
+        foreach (var a in arrayOfSetActive)
+        { a.gameObject.SetActive(true); }
+    }
+    public static void DestroyOnRestart()
+    {
+        arrayOfDestroy = Map.GetComponentsInChildren<RestartDestroy>();
+        foreach (var a in arrayOfDestroy)
+        { a.Initialize(); }
     }
     public static void RespawnOne()
     {
-        PlayerOne.SetActive(true);
         PlayerOne.transform.position = new Vector2(respawnPointOne.position.x, respawnPointOne.position.y);
         PlayerOne.GetComponent<PlayerOneController>().Initialize();
+        PlayerOne.SetActive(true);
     }
     public static void RespawnTwo()
     {
-        PlayerTwo.SetActive(true);
         PlayerTwo.transform.position = new Vector2(respawnPointTwo.position.x, respawnPointTwo.position.y);
         PlayerTwo.GetComponent<PlayerTwoController>().Initialize();
+        PlayerTwo.SetActive(true);
     }
     static void MoveCamera()
     {
