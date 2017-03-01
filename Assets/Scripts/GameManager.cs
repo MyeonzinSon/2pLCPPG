@@ -66,15 +66,17 @@ public class GameManager : MonoBehaviour
     }
     public static void RespawnOne()
     {
-        PlayerOne.SetActive(true);
+
         PlayerOne.transform.position = new Vector2(respawnPointOne.position.x, respawnPointOne.position.y);
         PlayerOne.GetComponent<PlayerOneController>().Initialize();
+        PlayerOne.SetActive(true);
     }
     public static void RespawnTwo()
     {
-        PlayerTwo.SetActive(true);
+
         PlayerTwo.transform.position = new Vector2(respawnPointTwo.position.x, respawnPointTwo.position.y);
         PlayerTwo.GetComponent<PlayerTwoController>().Initialize();
+        PlayerTwo.SetActive(true);
     }
     static void MoveCamera()
     {
