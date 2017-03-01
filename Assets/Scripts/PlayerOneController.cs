@@ -142,6 +142,11 @@ public class PlayerOneController : MonoBehaviour
             GetComponent<Animator>().SetBool("isOnLadder", true);
         else
             GetComponent<Animator>().SetBool("isOnLadder", false);
+
+        if (isAbilityActive)
+            GetComponent<Animator>().SetBool("isAbilityActive", true);
+        else
+            GetComponent<Animator>().SetBool("isAbilityActive", false);
     }
     public void OnTriggerEnter2D(Collider2D other)
     {
@@ -152,7 +157,7 @@ public class PlayerOneController : MonoBehaviour
         {
             isAbilityActive = false;
             isReturningFromAbility = false;
-            GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, 0.4f);
+            // GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, 0.4f);
             Destroy(existDummyObject);
         }
     }
@@ -184,15 +189,19 @@ public class PlayerOneController : MonoBehaviour
         {
             isAbilityActive = true;
             existDummyObject = Instantiate(dummyObject, transform.position, transform.rotation) as GameObject;
-            GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.4f);
-            Quaternion origin = transform.rotation;
-            transform.rotation = Quaternion.Euler(180, origin.eulerAngles.y, origin.eulerAngles.z);
+            // GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.4f);
+            Vector3 origin = groundChecker.localPosition;
+            groundChecker.localPosition = new Vector3(origin.x, -1 * origin.y, origin.z);
+            // Quaternion origin = transform.rotation;
+            // transform.rotation = Quaternion.Euler(180, origin.eulerAngles.y, origin.eulerAngles.z);
         }
         else
         {
             if (!CanReturnToBody()) return;
             isReturningFromAbility = true;
             SetVelocity(0f, 0f);
+            Vector3 origin = groundChecker.localPosition;
+            groundChecker.localPosition = new Vector3(origin.x, -1 * origin.y, origin.z);
             gameObject.transform.position = new Vector3(existDummyObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
             transform.rotation = existDummyObject.transform.rotation;
         }
@@ -262,6 +271,8 @@ public class PlayerOneController : MonoBehaviour
         isReturningFromAbility = false;
         isOnLadder = false;
         GetComponent<SpriteRenderer>().color = Color.white;
+        Vector3 origin = groundChecker.localPosition;
+        groundChecker.localPosition = new Vector3(origin.x, -1 * Mathf.Abs(origin.y), origin.z);
         transform.rotation = Quaternion.Euler(0, 180, 0);
         Destroy(existDummyObject);
     }
