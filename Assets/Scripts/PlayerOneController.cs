@@ -53,60 +53,7 @@ public class PlayerOneController : MonoBehaviour
         // 유체이탈 상태에서 본체 스캔용
         hit = Physics2D.Raycast(transform.position + new Vector3(0, Sign(gravity) * 0.6f, 0), Vector2.up * Sign(gravity));
 
-        if (isOnLadder)
-        {
-            SetVelocity(0f, inputYDirection * ladderSpeed);
-            gameObject.transform.position = new Vector3(otherLadderX, gameObject.transform.position.y, gameObject.transform.position.z);
-            if (inputJumping)
-            {
-                isOnLadder = false;
-                SetVelocity(inputXDirection * moveSpeed*0.7f, Sign(gravity) * jumpSpeed * 0.7f);
-            }
-            if (isOnPlatform || !isWithLadder)
-            { isOnLadder = false; }
-        }
-        else
-        {
-            if (isWithLadder)
-            {
-                if (inputYCount > 0 && !isAbilityActive)
-                {
-                    isOnLadder = true;
-                    SetVelocity(0f, 0f);
-                }
-            }
-            if (isOnPlatform)
-            {
-                if (inputJumping)
-                {
-                    isOnPlatform = false;
-                    SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
-                }
-                else
-                {
-                    SetVelocity(rb2d.velocity.x, 0);
-                }
-            }
-            else
-            {
-                AddVelocity(0, -gravity);
-                if (rb2d.velocity.x == 0f && !isReturningFromAbility)
-                { AddVelocity(inputXDirection * moveForce, 0f); }
-            }
-            if (!isReturningFromAbility)
-            {
-                if (Mathf.Abs(rb2d.velocity.x) <= moveSpeed)
-                { AddVelocity(inputXDirection * moveForce, 0); }
-                else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
-                { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
-
-            }
-
-            if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
-            { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
-            else
-            { SetVelocity(0, rb2d.velocity.y); }
-        }
+        UpdateVelocityInFixedUpdate();
 
         // sprite direction
         if (rb2d.velocity.x > collideForce/2) 
@@ -146,6 +93,66 @@ public class PlayerOneController : MonoBehaviour
         else
             GetComponent<Animator>().SetBool("isAbilityActive", false);
     }
+
+    void UpdateVelocityInFixedUpdate() 
+    {
+        if (isOnLadder)
+        {
+            SetVelocity(0f, inputYDirection * ladderSpeed);
+            gameObject.transform.position = new Vector3(otherLadderX, gameObject.transform.position.y, gameObject.transform.position.z);
+            if (inputJumping)
+            {
+                isOnLadder = false;
+                SetVelocity(inputXDirection * moveSpeed*0.7f, Sign(gravity) * jumpSpeed * 0.7f);
+            }
+            if (isOnPlatform || !isWithLadder)
+            { isOnLadder = false; }
+
+            return;
+        }
+
+        if (isWithLadder)
+        {
+            if (inputYCount > 0 && !isAbilityActive)
+            {
+                isOnLadder = true;
+                SetVelocity(0f, 0f);
+            }
+        }
+
+        if (isOnPlatform)
+        {
+            if (inputJumping)
+            {
+                isOnPlatform = false;
+                SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
+            }
+            else
+            {
+                SetVelocity(rb2d.velocity.x, 0);
+            }
+        }
+        else
+        {
+            AddVelocity(0, -gravity);
+            if (rb2d.velocity.x == 0f && !isReturningFromAbility)
+            { AddVelocity(inputXDirection * moveForce, 0f); }
+        }
+
+        if (!isReturningFromAbility)
+        {
+            if (Mathf.Abs(rb2d.velocity.x) <= moveSpeed)
+            { AddVelocity(inputXDirection * moveForce, 0); }
+            else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
+            { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
+        }
+
+        if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
+        { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
+        else
+        { SetVelocity(0, rb2d.velocity.y); }
+    }
+
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Ladder")
