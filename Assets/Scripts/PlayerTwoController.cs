@@ -48,10 +48,16 @@ public class PlayerTwoController : MonoBehaviour
     public float moveSpeed;
     public float ladderSpeed;
     public float jumpSpeed;
+    public float ropeSpeed;
 
     private bool isOnPlatform = false;
     private bool isWithLadder = false;
     private bool isOnLadder = false;
+    private bool isWithRope = false;
+    private bool isOnRope = false;
+    // 0이면 로프의 아래 끝, 1이면 로프의 위 끝
+    private float ropePosition = 0;
+    private Rope rope = null;
 
     bool inputJumping = false;
     int inputXDirection = 0;
@@ -64,6 +70,7 @@ public class PlayerTwoController : MonoBehaviour
     public LayerMask layerMaskItemNoteSeven;
     public LayerMask layerMaskItemBallotPaper;
     public LayerMask layerMaskItemBluePill;
+    public LayerMask layerMaskRope;
 
     Rigidbody2D rb2d;
     float otherLadderX;
@@ -172,64 +179,7 @@ public class PlayerTwoController : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (isOnLadder)
-        {
-            SetVelocity(0f, inputYDirection * ladderSpeed);
-            gameObject.transform.position = new Vector3(otherLadderX, gameObject.transform.position.y, gameObject.transform.position.z);
-            if (inputJumping)
-            {
-                isOnLadder = false;
-                SetVelocity(inputXDirection * moveSpeed * 0.7f, jumpSpeed * 0.7f);
-            }
-            if (isOnPlatform || !isWithLadder)
-            { isOnLadder = false; }
-        }
-        else
-        {
-            if (isWithLadder)
-            {
-                if (inputYCount > 0)
-                {
-                    isOnLadder = true;
-                    SetVelocity(0f, 0f);
-                    gameObject.transform.position = new Vector2(otherLadderX, gameObject.transform.position.y);
-                }
-            }
-            if (isOnPlatform)
-            {
-                if (inputJumping)
-                {
-                    isOnPlatform = false;
-                    SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
-                }
-                else
-                {
-                    SetVelocity(rb2d.velocity.x, 0);
-                }
-            }
-            else
-            {
-                AddVelocity(0, -gravity);
-                if (rb2d.velocity.x == 0f)
-                { AddVelocity(inputXDirection * moveForce, 0f); }
-                if (rb2d.velocity == new Vector2(0f, 0f))
-                {
-                    AddVelocity(inputXDirection * moveForce, 0f);
-                    if (inputJumping)
-                    { AddVelocity(0f, jumpSpeed); }
-                }
-            }
-
-            if (Mathf.Abs(rb2d.velocity.x) <= moveSpeed)
-            { AddVelocity(inputXDirection * moveForce, 0); }
-            else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
-            { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
-
-            if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
-            { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
-            else
-            { SetVelocity(0, rb2d.velocity.y); }
-        }
+        UpdateVelocityInFixedUpdate();
 
         // sprite direction
         if (rb2d.velocity.x > collideForce / 2)
@@ -259,11 +209,102 @@ public class PlayerTwoController : MonoBehaviour
         else
             GetComponent<Animator>().SetBool("isMovingVertical", false);
 
-        if (isOnLadder)
+        if (isOnLadder || isOnRope)
             GetComponent<Animator>().SetBool("isOnLadder", true);
         else
             GetComponent<Animator>().SetBool("isOnLadder", false);
     }
+
+    void UpdateVelocityInFixedUpdate() {
+        if (isOnLadder)
+        {
+            SetVelocity(0f, inputYDirection * ladderSpeed);
+            gameObject.transform.position = new Vector3(otherLadderX, gameObject.transform.position.y, gameObject.transform.position.z);
+            if (inputJumping)
+            {
+                isOnLadder = false;
+                SetVelocity(inputXDirection * moveSpeed * 0.7f, jumpSpeed * 0.7f);
+            }
+            if (isOnPlatform || !isWithLadder)
+            { isOnLadder = false; }
+
+            return;
+        }
+
+        if (isOnRope)
+        {
+            ropePosition = ropePosition + inputYDirection * ropeSpeed;
+            ropePosition = Mathf.Clamp(ropePosition, 0, 1);
+            Vector2 playerXY = rope.GetPosFromRatio(ropePosition);
+            gameObject.transform.position = new Vector3(playerXY.x, playerXY.y, transform.position.z);
+
+            if (inputJumping)
+            {
+                isOnRope = false;
+                SetVelocity(inputXDirection * moveSpeed * 0.7f, Sign(gravity) * jumpSpeed * 0.7f);
+            } 
+
+            return;
+        }
+
+        if (isWithLadder)
+        {
+            if (inputYCount > 0)
+            {
+                isOnLadder = true;
+                SetVelocity(0f, 0f);
+                gameObject.transform.position = new Vector2(otherLadderX, gameObject.transform.position.y);
+            }
+        }
+
+        if (isWithRope)
+        {
+            if (inputYCount > 0)
+            {
+                isOnRope = true;
+                ropePosition = rope.GetRatioFromPos(transform.position);
+                Debug.Log("Calculated ropePosition is " + ropePosition);
+                rope.StartMove(transform.position);
+                SetVelocity(0f, 0f);
+            }
+        }
+
+        if (isOnPlatform)
+        {
+            if (inputJumping)
+            {
+                isOnPlatform = false;
+                SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
+            }
+            else
+            {
+                SetVelocity(rb2d.velocity.x, 0);
+            }
+        }
+        else
+        {
+            AddVelocity(0, -gravity);
+            if (rb2d.velocity.x == 0f)
+            { AddVelocity(inputXDirection * moveForce, 0f); }
+            if (rb2d.velocity == new Vector2(0f, 0f))
+            {
+                AddVelocity(inputXDirection * moveForce, 0f);
+                if (inputJumping)
+                { AddVelocity(0f, jumpSpeed); }
+            }
+        }
+
+        if (Mathf.Abs(rb2d.velocity.x) <= moveSpeed)
+        { AddVelocity(inputXDirection * moveForce, 0); }
+        else if (inputXDirection * Sign(rb2d.velocity.x) < 0)
+        { AddVelocity(inputXDirection * (moveForce + collideForce), 0); }
+
+        if (Mathf.Abs(rb2d.velocity.x) >= collideForce)
+        { AddVelocity(-1 * Sign(rb2d.velocity.x) * collideForce, 0); }
+        else
+        { SetVelocity(0, rb2d.velocity.y); }
+    }
+
     public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Ladder")
@@ -326,8 +367,15 @@ public class PlayerTwoController : MonoBehaviour
     {
         Vector2 checkPlatform = groundChecker.position;
         Vector2 checkLadder = ladderChecker.position;
+        Vector2 checkRope = ladderChecker.position;
         isOnPlatform = (Physics2D.BoxCastAll(checkPlatform, new Vector2(0.89f, 0.12f), 0, new Vector2(0, 0), 0, layerMaskPlatform).Any(x => x.collider.isTrigger == false));
         isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.25f, layerMaskLadder);
+        Collider2D ropeCollider = Physics2D.OverlapCircle(checkRope, 0.25f, layerMaskRope);
+        isWithRope = ropeCollider != null;
+        if (ropeCollider != null) {
+            rope = ropeCollider.transform.parent.GetComponent<Rope>();
+            Debug.Assert(rope != null);
+        }
     }
 
     void SetVelocity(float x, float y)
