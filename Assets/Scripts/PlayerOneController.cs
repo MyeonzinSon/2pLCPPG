@@ -13,11 +13,16 @@ public class PlayerOneController : MonoBehaviour
     public float moveSpeed;
     public float ladderSpeed;
     public float jumpSpeed;
+    public float ropeSpeed;
 
     private bool isOnPlatform = false;
     private bool isWithLadder = false;
     private bool isOnLadder = false;
-
+    private bool isWithRope = false;
+    private bool isOnRope = false;
+    // 0이면 로프의 아래 끝, 1이면 로프의 위 끝
+    private float ropePosition = 0;
+    private Rope rope = null;
     bool isReturningFromAbility = false;
     bool inputJumping = false;
     public bool isAbilityActive = false;
@@ -27,6 +32,7 @@ public class PlayerOneController : MonoBehaviour
 
     public LayerMask layerMaskPlatform;
     public LayerMask layerMaskLadder;
+    public LayerMask layerMaskRope;
 
     Rigidbody2D rb2d;
     float otherLadderX;
@@ -49,6 +55,7 @@ public class PlayerOneController : MonoBehaviour
         CollisionCheck();
         UpdateAbilityAvailableState();
     }
+
     void FixedUpdate()
     {
         // 유체이탈 상태에서 본체 스캔용
@@ -84,7 +91,7 @@ public class PlayerOneController : MonoBehaviour
         else
             GetComponent<Animator>().SetBool("isMovingVertical", false);
 
-        if (isOnLadder)
+        if (isOnLadder || isOnRope)
             GetComponent<Animator>().SetBool("isOnLadder", true);
         else
             GetComponent<Animator>().SetBool("isOnLadder", false);
@@ -112,11 +119,39 @@ public class PlayerOneController : MonoBehaviour
             return;
         }
 
+        if (isOnRope)
+        {
+            ropePosition = ropePosition + inputYDirection * ropeSpeed;
+            ropePosition = Mathf.Clamp(ropePosition, 0, 1);
+            Vector2 playerXY = rope.GetPosFromRatio(ropePosition);
+            gameObject.transform.position = new Vector3(playerXY.x, playerXY.y, transform.position.z);
+
+            if (inputJumping)
+            {
+                isOnRope = false;
+                SetVelocity(inputXDirection * moveSpeed * 0.7f, Sign(gravity) * jumpSpeed * 0.7f);
+            } 
+
+            return;
+        }
+
         if (isWithLadder)
         {
             if (inputYCount > 0 && !isAbilityActive)
             {
                 isOnLadder = true;
+                SetVelocity(0f, 0f);
+            }
+        }
+
+        if (isWithRope)
+        {
+            if (inputYCount > 0 && !isAbilityActive)
+            {
+                isOnRope = true;
+                ropePosition = rope.GetRatioFromPos(transform.position);
+                Debug.Log("Calculated ropePosition is " + ropePosition);
+                rope.StartMove(transform.position);
                 SetVelocity(0f, 0f);
             }
         }
@@ -244,8 +279,15 @@ public class PlayerOneController : MonoBehaviour
     {
         Vector2 checkPlatform = groundChecker.position;
         Vector2 checkLadder = ladderChecker.position;
+        Vector2 checkRope = ladderChecker.position;
         isOnPlatform = (Physics2D.BoxCastAll(checkPlatform, new Vector2(0.89f, 0.12f), 0, new Vector2(0,0),0, layerMaskPlatform).Any(x => x.collider.isTrigger == false));
         isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.25f, layerMaskLadder);
+        Collider2D ropeCollider = Physics2D.OverlapCircle(checkRope, 0.25f, layerMaskRope);
+        isWithRope = ropeCollider != null;
+        if (ropeCollider != null) {
+            rope = ropeCollider.transform.parent.GetComponent<Rope>();
+            Debug.Assert(rope != null);
+        }
     }
 
     void SetVelocity(float x, float y)
