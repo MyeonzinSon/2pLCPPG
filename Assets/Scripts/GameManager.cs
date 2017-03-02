@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        flexibleObjects = new List<GameObject>();
         FindObjectsOfType<RestartDestroy>().ToList().ForEach(x => flexibleObjects.Add(x.gameObject));
     }
 
@@ -80,8 +81,10 @@ public class GameManager : MonoBehaviour
     }
     public static void SetActiveOnRestart()
     {
-        foreach (var obj in changableObjects)
-        { obj.GetComponent<RestartSetActive>().Initialize(); }
+        // foreach (var obj in changableObjects)
+        // {
+        //     obj.GetComponent<RestartSetActive>().Initialize();
+        // }
     }
     public static void DestroyOnRestart()
     {

@@ -20,4 +20,9 @@ public class RestartDestroy : MonoBehaviour {
     {
         gameObject.SetActive(false);
     }
+
+    public void PseudoDestroy(float delay)
+    {
+        Invoke("PseudoDestroy", delay);
+    }
 }

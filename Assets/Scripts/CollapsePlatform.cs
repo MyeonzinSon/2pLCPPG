@@ -25,7 +25,7 @@ public class CollapsePlatform : MonoBehaviour {
 		if (coll.gameObject.GetComponent<PlayerOneController>().isAbilityActive) return;
 		if (isShaking) return;
 		StartCoroutine(Shake());
-		Destroy(this.gameObject, 1);
+		gameObject.GetComponent<RestartDestroy>().PseudoDestroy(1);
 	}
 
 	IEnumerator Shake()
