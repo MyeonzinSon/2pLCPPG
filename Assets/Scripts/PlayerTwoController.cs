@@ -199,6 +199,10 @@ public class PlayerTwoController : MonoBehaviour
                     isOnPlatform = false;
                     SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                 }
+                else
+                {
+                    SetVelocity(rb2d.velocity.x, 0);
+                }
             }
             else
             {
