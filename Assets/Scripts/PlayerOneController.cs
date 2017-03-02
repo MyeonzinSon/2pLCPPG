@@ -163,7 +163,6 @@ public class PlayerOneController : MonoBehaviour
         {
             isAbilityActive = false;
             isReturningFromAbility = false;
-            // GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, 0.4f);
             Destroy(existDummyObject);
         }
     }
@@ -196,11 +195,8 @@ public class PlayerOneController : MonoBehaviour
             SetVelocity(0f, 0f);
             isAbilityActive = true;
             existDummyObject = Instantiate(dummyObject, transform.position, transform.rotation) as GameObject;
-            // GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.4f);
             Vector3 origin = groundChecker.localPosition;
             groundChecker.localPosition = new Vector3(origin.x, -1 * origin.y, origin.z);
-            // Quaternion origin = transform.rotation;
-            // transform.rotation = Quaternion.Euler(180, origin.eulerAngles.y, origin.eulerAngles.z);
         }
         else
         {

@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class RestartDestroy : MonoBehaviour {
 
+    Vector3 originPosition;
+
+    void Start()
+    {
+        originPosition = transform.position;
+    }
+
     public void Initialize()
-    { Destroy(gameObject);    }
+    {
+        transform.position = originPosition;
+    }
+
+    public void PseudoDestroy()
+    {
+        gameObject.SetActive(false);
+    }
 }

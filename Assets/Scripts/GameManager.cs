@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
     static public Transform respawnPointTwo;
     static RestartSetActive[] arrayOfSetActive;
     static RestartDestroy[] arrayOfDestroy;
+
+    static List<GameObject> flexibleObjects;
+    static List<GameObject> changableObjects;
 
     static public int stage;
     static public int map;
@@ -29,12 +33,17 @@ public class GameManager : MonoBehaviour
         map = 1;
         ImportMap();
     }
+
+    void Start()
+    {
+        FindObjectsOfType<RestartDestroy>().ToList().ForEach(x => flexibleObjects.Add(x.gameObject));
+    }
+
     void Update()
     {
         if (Input.GetKeyDown("r"))
         {
-            RespawnOne();
-            RespawnTwo();
+            RestartMap();
         }
     }
 
@@ -71,14 +80,15 @@ public class GameManager : MonoBehaviour
     }
     public static void SetActiveOnRestart()
     {
-        foreach (var a in arrayOfSetActive)
-        { a.gameObject.SetActive(true); }
+        foreach (var obj in changableObjects)
+        { obj.GetComponent<RestartSetActive>().Initialize(); }
     }
     public static void DestroyOnRestart()
     {
-        arrayOfDestroy = Map.GetComponentsInChildren<RestartDestroy>();
-        foreach (var a in arrayOfDestroy)
-        { a.Initialize(); }
+        foreach (var obj in flexibleObjects)
+        {
+            obj.GetComponent<RestartDestroy>().Initialize();
+        }
     }
     public static void RespawnOne()
     {
