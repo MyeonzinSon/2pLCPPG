@@ -6,7 +6,6 @@ public class RestartSetActive : MonoBehaviour {
 
 	public void Initialize()
 	{
-		
-	}
 
+	}
 }

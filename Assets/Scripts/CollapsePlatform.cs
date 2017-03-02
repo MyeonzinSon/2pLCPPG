@@ -20,6 +20,11 @@ public class CollapsePlatform : MonoBehaviour {
 		isShaking = false;
 	}
 
+	void Initialize()
+	{
+		childrenObjects.ForEach(obj => obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, 0, obj.transform.localPosition.z));
+	}
+
 	void OnTriggerEnter2D(Collider2D coll)
 	{
 		if (coll.gameObject.GetComponent<PlayerOneController>().isAbilityActive) return;

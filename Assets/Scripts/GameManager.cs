@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var obj in flexibleObjects)
         {
+            obj.SetActive(true);
             obj.GetComponent<RestartDestroy>().Initialize();
         }
     }

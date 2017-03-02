@@ -27,7 +27,6 @@ public class LightSwitch : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
-		Debug.Log("--");
 		if ((coll.gameObject.tag == "PlayerOne") || (coll.gameObject.tag == "PlayerTwo"))
 		{
 			if (isLightbulbOn)
