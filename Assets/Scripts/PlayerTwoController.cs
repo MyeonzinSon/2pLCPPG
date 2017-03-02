@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public enum Item { Null, NoteSeven, BluePill, BallotPaper }
 public class ItemSlot
@@ -124,6 +125,7 @@ public class PlayerTwoController : MonoBehaviour
                     }
                 case Item.BallotPaper:
                     {
+                        Debug.Log("asdf");
                         if (isOnLadder)
                         {
                             isOnLadder = false;
@@ -131,6 +133,7 @@ public class PlayerTwoController : MonoBehaviour
                         }
                         else
                         {
+                            Debug.Log("qwer");
                             isOnPlatform = false;
                             SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
                         }
@@ -323,7 +326,7 @@ public class PlayerTwoController : MonoBehaviour
     {
         Vector2 checkPlatform = groundChecker.position;
         Vector2 checkLadder = ladderChecker.position;
-        isOnPlatform = Physics2D.OverlapCircle(checkPlatform, 0.25f, layerMaskPlatform);
+        isOnPlatform = (Physics2D.BoxCastAll(checkPlatform, new Vector2(0.89f, 0.12f), 0, new Vector2(0, 0), 0, layerMaskPlatform).Any(x => x.collider.isTrigger == false));
         isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.25f, layerMaskLadder);
     }
 

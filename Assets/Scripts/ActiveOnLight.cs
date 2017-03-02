@@ -9,14 +9,12 @@ public class ActiveOnLight : MonoBehaviour {
 
 	List<GameObject> childrenObjects;
 
-	// Use this for initialization
 	void Start () {
 		coll = GetComponent<Collider2D>();
 		childrenObjects = new List<GameObject>();
 		GetComponentsInChildren<SpriteRenderer>().ToList().ForEach(x => childrenObjects.Add(x.gameObject));
 	}
 
-	// Update is called once per frame
 	void Update () {
 		Bounds region = coll.bounds;
 		if (Physics2D.OverlapAreaAll (region.max, region.min, LayerMask.GetMask ("Light")).Any(k => k.isTrigger == true))
