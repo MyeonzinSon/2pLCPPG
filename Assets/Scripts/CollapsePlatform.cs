@@ -20,14 +20,15 @@ public class CollapsePlatform : MonoBehaviour {
 		isShaking = false;
 	}
 
-	void Initialize()
+	public void Initialize()
 	{
 		childrenObjects.ForEach(obj => obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, 0, obj.transform.localPosition.z));
+        isShaking = false;
 	}
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
-		if (coll.gameObject.GetComponent<PlayerOneController>().isAbilityActive) return;
+		if ((coll.gameObject.tag == "PlayerOne") && (coll.gameObject.GetComponent<PlayerOneController>().isAbilityActive)) return;
 		if (isShaking) return;
 		StartCoroutine(Shake());
 		gameObject.GetComponent<RestartDestroy>().PseudoDestroy(1);

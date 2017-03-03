@@ -81,10 +81,10 @@ public class GameManager : MonoBehaviour
     }
     public static void SetActiveOnRestart()
     {
-        // foreach (var obj in changableObjects)
-        // {
-        //     obj.GetComponent<RestartSetActive>().Initialize();
-        // }
+        foreach (var obj in arrayOfSetActive)
+        {
+            obj.gameObject.SetActive(true);
+        }
     }
     public static void DestroyOnRestart()
     {
@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
         {
             obj.SetActive(true);
             obj.GetComponent<RestartDestroy>().Initialize();
+            obj.GetComponent<CollapsePlatform>().Initialize();
         }
     }
     public static void RespawnOne()
