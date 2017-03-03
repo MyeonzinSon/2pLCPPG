@@ -409,6 +409,8 @@ public class PlayerTwoController : MonoBehaviour
         jumpSpeed = initJumpSpeed;
         SetVelocity(0f, 0f);
         isOnLadder = false;
+        isOnRope = false;
+        rope = null;
         inputJumping = false;
         inputXDirection = 0;
         inputYDirection = 0;

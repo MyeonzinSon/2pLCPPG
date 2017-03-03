@@ -21,11 +21,14 @@ public class Rope : MonoBehaviour
 
     void Awake()
     {
+        Initialize();
+    }
+    public void Initialize()
+    {
         curSpeed = 0;
         curTheta = 0;
         stop = true;
     }
-
     public void StartMove(Vector2 playerPos)
     {
         if (stop == false) {

@@ -322,6 +322,8 @@ public class PlayerOneController : MonoBehaviour
         isAbilityActive = false;
         isReturningFromAbility = false;
         isOnLadder = false;
+        isOnRope = false;
+        rope = null;
         inputJumping = false;
         inputXDirection = 0;
         inputYDirection = 0;
