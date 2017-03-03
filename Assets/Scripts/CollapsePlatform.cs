@@ -21,7 +21,8 @@ public class CollapsePlatform : MonoBehaviour {
 
 	public void Initialize()
 	{
-		childrenObjects.ForEach(obj => obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, 0, obj.transform.localPosition.z));
+        StopAllCoroutines();
+        childrenObjects.ForEach(obj => obj.transform.localPosition = new Vector3(obj.transform.localPosition.x, 0, obj.transform.localPosition.z));
         isShaking = false;
 	}
 

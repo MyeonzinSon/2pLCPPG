@@ -287,7 +287,7 @@ public class PlayerOneController : MonoBehaviour
         Vector2 checkPlatform = groundChecker.position;
         Vector2 checkLadder = ladderChecker.position;
         Vector2 checkRope = ladderChecker.position;
-        isOnPlatform = (Physics2D.BoxCastAll(checkPlatform, new Vector2(0.89f, 0.12f), 0, new Vector2(0,0),0, layerMaskPlatform).Any(x => x.collider.isTrigger == false));
+        isOnPlatform = (Physics2D.BoxCastAll(checkPlatform, new Vector2(0.89f, 0.15f), 0, new Vector2(0,0),0, layerMaskPlatform).Any(x => x.collider.isTrigger == false));
         isWithLadder = Physics2D.OverlapCircle(checkLadder, 0.25f, layerMaskLadder);
         Collider2D ropeCollider = Physics2D.OverlapCircle(checkRope, 0.25f, layerMaskRope);
         isWithRope = ropeCollider != null;

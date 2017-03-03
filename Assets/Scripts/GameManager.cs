@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     static public Transform respawnPointTwo;
     static RestartSetActive[] arrayOfSetActive;
     static RestartDestroy[] arrayOfDestroy;
+    static LightSwitch[] arrayOfLightSwitch;
 
     static List<GameObject> flexibleObjects;
     static List<GameObject> changableObjects;
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
         respawnPointOne = GameObject.Find("Map" + map + "/RespawnOne").transform;
         respawnPointTwo = GameObject.Find("Map" + map + "/RespawnTwo").transform;
         arrayOfSetActive = Map.GetComponentsInChildren<RestartSetActive>();
+        arrayOfLightSwitch = Map.GetComponentsInChildren<LightSwitch>();
     }
     static public void MapChange()
     {
@@ -78,7 +80,15 @@ public class GameManager : MonoBehaviour
         RespawnTwo();
         SetActiveOnRestart();
         DestroyOnRestart();
+        InitializeOnRestart();
+    }
+    static void InitializeOnRestart()
+    {
         Map.GetComponentInChildren<Door>().Initialize();
+        foreach (var obj in arrayOfLightSwitch)
+        {
+            obj.GetComponent<LightSwitch>().Initialize();
+        }
     }
     public static void SetActiveOnRestart()
     {

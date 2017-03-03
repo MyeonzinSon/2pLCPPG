@@ -13,6 +13,7 @@ public class RestartDestroy : MonoBehaviour
 
     public void Initialize()
     {
+        StopAllCoroutines();
         transform.position = originPosition;
         if (gameObject.GetComponent<CollapsePlatform>() != null)
         { gameObject.GetComponent<CollapsePlatform>().Initialize(); }
@@ -22,9 +23,14 @@ public class RestartDestroy : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
     public void PseudoDestroy(float delay)
     {
-        Invoke("PseudoDestroy", delay);
+        StartCoroutine(PseudoPseudoDestroy(delay));
+    }
+    IEnumerator PseudoPseudoDestroy(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        PseudoDestroy();
+        yield return null;
     }
 }

@@ -2,55 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightSwitch : MonoBehaviour {
+public class LightSwitch : MonoBehaviour
+{
 
-	public GameObject Lightbulb;
-	bool isLightbulbOn;
-	public bool initStateOn;
+    public GameObject Lightbulb;
+    bool isLightbulbOn;
+    public bool initStateOn;
 
-	public Sprite inactiveSprite;
-	public Sprite activeSprite;
+    public Sprite inactiveSprite;
+    public Sprite activeSprite;
 
-	// Use this for initialization
-	void Start () {
-		if (initStateOn)
-			TurnOnLight();
-		else
-			TurnOffLight();
-			
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+        Initialize();
+    }
+    public void Initialize()
+    {
+        if (initStateOn)
+            TurnOnLight();
+        else
+            TurnOffLight();
+    }
+    void OnTriggerEnter2D(Collider2D coll)
+    {
+        if ((coll.gameObject.tag == "PlayerOne") || (coll.gameObject.tag == "PlayerTwo"))
+        {
+            if (isLightbulbOn)
+            {
+                TurnOffLight();
+            }
+            else
+            {
+                TurnOnLight();
+            }
+        }
+    }
 
-	void OnTriggerEnter2D(Collider2D coll)
-	{
-		if ((coll.gameObject.tag == "PlayerOne") || (coll.gameObject.tag == "PlayerTwo"))
-		{
-			if (isLightbulbOn)
-			{
-				TurnOffLight();
-			}
-			else
-			{
-				TurnOnLight();
-			}
-		}
-	}
+    void TurnOnLight()
+    {
+        Lightbulb.GetComponent<Lightbulb>().TurnOnLight();
+        GetComponent<SpriteRenderer>().sprite = activeSprite;
+        isLightbulbOn = true;
+    }
 
-	void TurnOnLight()
-	{
-		Lightbulb.GetComponent<Lightbulb>().TurnOnLight();
-		GetComponent<SpriteRenderer>().sprite = activeSprite;
-		isLightbulbOn = true;
-	}
-
-	void TurnOffLight()
-	{
-		Lightbulb.GetComponent<Lightbulb>().TurnOffLight();
-		GetComponent<SpriteRenderer>().sprite = inactiveSprite;
-		isLightbulbOn = false;
-	}
+    void TurnOffLight()
+    {
+        Lightbulb.GetComponent<Lightbulb>().TurnOffLight();
+        GetComponent<SpriteRenderer>().sprite = inactiveSprite;
+        isLightbulbOn = false;
+    }
 }
