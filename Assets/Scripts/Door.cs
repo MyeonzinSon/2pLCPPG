@@ -10,16 +10,22 @@ public class Door : MonoBehaviour
     bool enterOne;
     bool enterTwo;
 
+    public bool opened = true;
+    bool initialOpened;
+
     void Awake()
     {
         PlayerOne = GameObject.Find("PlayerOne");
         PlayerTwo = GameObject.Find("PlayerTwo");
         enterOne = false;
         enterTwo = false;
+        initialOpened = opened;
+        UpdateColor();
     }
-    void Update()
+    public void Initialize()
     {
-
+        opened = initialOpened;
+        UpdateColor();
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -28,7 +34,7 @@ public class Door : MonoBehaviour
         if (other.gameObject.tag == "PlayerTwo")
         { enterTwo = true; }
 
-        if (enterOne && enterTwo)
+        if (opened && enterOne && enterTwo)
         { GameManager.MapChange(); }
     }
     void OnTriggerExit2D(Collider2D other)
@@ -37,5 +43,27 @@ public class Door : MonoBehaviour
         { enterOne = false; }
         if (other.gameObject.tag == "PlayerTwo")
         { enterTwo = false; }
+    }
+    public void StateSwitch()
+    {
+        opened = !opened;
+        UpdateColor();
+    }
+    public void StateOpened()
+    {
+        opened = true;
+        UpdateColor();
+    }
+    public void StateClosed()
+    {
+        opened = false;
+        UpdateColor();
+    }
+    void UpdateColor()
+    {
+        if (!opened)
+        { gameObject.GetComponent<SpriteRenderer>().color = new Color(0.5f, 0.5f, 0.5f, 1f); }
+        else
+        { gameObject.GetComponent<SpriteRenderer>().color = Color.white; }
     }
 }

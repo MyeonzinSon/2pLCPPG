@@ -201,6 +201,12 @@ public class PlayerOneController : MonoBehaviour
             isReturningFromAbility = false;
             Destroy(existDummyObject);
         }
+
+        if (other.gameObject.tag == "Key")
+        {
+            other.gameObject.GetComponentInParent<Door>().StateOpened();
+            other.gameObject.SetActive(false);
+        }
     }
 
     void UpdateAbilityAvailableState()

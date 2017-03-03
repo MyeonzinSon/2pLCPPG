@@ -310,6 +310,12 @@ public class PlayerTwoController : MonoBehaviour
     {
         if (other.gameObject.tag == "Ladder")
         { otherLadderX = other.gameObject.transform.position.x; }
+
+        if (other.gameObject.tag == "Key")
+        {
+            other.gameObject.GetComponentInParent<Door>().StateOpened();
+            other.gameObject.SetActive(false);
+        }
     }
 
     void InputKeys()
