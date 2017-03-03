@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
         RespawnTwo();
         SetActiveOnRestart();
         DestroyOnRestart();
+        Map.GetComponentInChildren<Door>().Initialize();
     }
     public static void SetActiveOnRestart()
     {

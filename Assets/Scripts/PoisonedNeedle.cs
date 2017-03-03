@@ -29,6 +29,7 @@ public class PoisonedNeedle : MonoBehaviour
             other.gameObject.GetComponent<PlayerOneController>().Die();
         if (other.gameObject.tag == "PlayerTwo")
             other.gameObject.GetComponent<PlayerTwoController>().Die();
+        Destroy(gameObject);
     }
 
 }
