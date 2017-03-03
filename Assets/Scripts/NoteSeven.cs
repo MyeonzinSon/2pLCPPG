@@ -29,6 +29,10 @@ public class NoteSeven : MonoBehaviour
             if (collider.gameObject.tag == "Enemy")
             {
             }
+            else if (collider.gameObject.tag == "PillarWood")
+            {
+                collider.gameObject.SetActive(false);
+            }
             else if (collider.gameObject.GetComponent<Rigidbody2D>())
             {
                 Rigidbody2D rb = collider.gameObject.GetComponent<Rigidbody2D>();

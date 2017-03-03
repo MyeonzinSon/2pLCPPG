@@ -46,6 +46,7 @@ public class PlayerOneController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         groundChecker = transform.FindChild("GroundChecker");
         ladderChecker = transform.FindChild("LadderChecker");
+        Initialize();
     }
     void Start()
     { Initialize(); }

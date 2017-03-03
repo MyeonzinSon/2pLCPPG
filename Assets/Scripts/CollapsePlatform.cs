@@ -12,7 +12,6 @@ public class CollapsePlatform : MonoBehaviour {
 
 	bool isShaking;
 
-	// Use this for initialization
 	void Start () {
 		childrenObjects = new List<GameObject>();
 		GetComponentsInChildren<SpriteRenderer>().ToList().ForEach(x => childrenObjects.Add(x.gameObject));

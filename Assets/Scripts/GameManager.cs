@@ -92,7 +92,6 @@ public class GameManager : MonoBehaviour
         {
             obj.SetActive(true);
             obj.GetComponent<RestartDestroy>().Initialize();
-            obj.GetComponent<CollapsePlatform>().Initialize();
         }
     }
     public static void RespawnOne()

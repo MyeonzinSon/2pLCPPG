@@ -94,6 +94,7 @@ public class PlayerTwoController : MonoBehaviour
         ladderChecker = transform.FindChild("LadderChecker");
         initMoveSpeed = moveSpeed;
         initJumpSpeed = jumpSpeed;
+        Initialize();
     }
     void Start()
     { Initialize(); }
