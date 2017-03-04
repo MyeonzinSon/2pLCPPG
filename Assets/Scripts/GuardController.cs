@@ -44,13 +44,13 @@ public class GuardController : MonoBehaviour
     void Update()
     {
         CollisionCheck();
-        if (transform.position.x > rightBoundMarker.position.x)
+        if (transform.position.x < rightBoundMarker.position.x)
         {
             inputXDirection += 1;
             inputXDirection += 1; lastXDirection = 1;
         }
         
-        if (transform.position.x < leftBoundMarker.position.x)
+        if (transform.position.x > leftBoundMarker.position.x)
         {
             inputXDirection -= 1;
             inputXDirection -= 1; lastXDirection = -1;
