@@ -12,6 +12,9 @@ public class NoteSeven : MonoBehaviour
     public float explosionTime;
     public LayerMask layerMasks;
 
+    public GameObject explodeObjectRed;
+    public GameObject explodeObjectYellow;
+
     void Start()
     {
         StartCoroutine(Countdown());
@@ -23,6 +26,9 @@ public class NoteSeven : MonoBehaviour
     }
     void Explode()
     {
+        Instantiate(explodeObjectRed, transform.position, Quaternion.identity);
+        Instantiate(explodeObjectYellow, transform.position, Quaternion.identity);
+
         nearByColliders = Physics2D.OverlapCircleAll(gameObject.transform.position, explosionRadius, layerMasks);
         foreach (var collider in nearByColliders)
         {
