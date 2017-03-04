@@ -5,11 +5,15 @@ using System.Linq;
 public enum Item { Null, NoteSeven, BluePill, BallotPaper }
 public class ItemSlot
 {
+    ItemUI itemUI;
+
     public Item item;
     public int numOfItem;
     public ItemSlot() : this(Item.Null, 0) { }
     public ItemSlot(Item item, int num)
     {
+        itemUI = MonoBehaviour.FindObjectOfType<ItemUI>();
+
         this.item = item;
         this.numOfItem = num;
     }
@@ -27,6 +31,8 @@ public class ItemSlot
         }
         else if (item == newItem)
         { numOfItem += 1; }
+
+        itemUI.UpdateItemSlotState(newItem, numOfItem);
     }
     public Item UseItem()
     {
@@ -37,6 +43,9 @@ public class ItemSlot
             if (numOfItem == 0)
             { item = Item.Null; }
         }
+
+        itemUI.UpdateItemSlotState(item, numOfItem);
+
         return output;
     }
 }
@@ -87,8 +96,11 @@ public class PlayerTwoController : MonoBehaviour
     public float bluePillTime;
     int bluePillCount;
 
+    ItemUI itemUI;
+
     void Awake()
     {
+        itemUI = FindObjectOfType<ItemUI>();
         rb2d = GetComponent<Rigidbody2D>();
         groundChecker = transform.FindChild("GroundChecker");
         ladderChecker = transform.FindChild("LadderChecker");

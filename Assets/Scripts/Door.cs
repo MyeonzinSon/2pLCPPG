@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class Door : MonoBehaviour
 
     public bool opened = true;
     bool initialOpened;
+    public bool isLastDoorIn1stStage;
+    public bool isLastDoorIn2ndStage;
+
+    ItemUI itemUI;
 
     void Awake()
     {
@@ -21,6 +26,7 @@ public class Door : MonoBehaviour
         enterTwo = false;
         initialOpened = opened;
         UpdateColor();
+        itemUI = FindObjectOfType<ItemUI>();
     }
     public void Initialize()
     {
@@ -35,7 +41,15 @@ public class Door : MonoBehaviour
         { enterTwo = true; }
 
         if (opened && enterOne && enterTwo)
-        { GameManager.MapChange(); }
+        {
+            itemUI.UpdateKeySlotState(false);
+
+            if (isLastDoorIn1stStage)
+                SceneManager.LoadScene("Stage2");
+            if (isLastDoorIn2ndStage)
+                SceneManager.LoadScene("Ending");
+            GameManager.MapChange();
+        }
     }
     void OnTriggerExit2D(Collider2D other)
     {
@@ -51,12 +65,14 @@ public class Door : MonoBehaviour
     }
     public void StateOpened()
     {
+        itemUI.UpdateKeySlotState(true);
         opened = true;
         UpdateColor();
     }
     public void StateClosed()
     {
         opened = false;
+        itemUI.UpdateKeySlotState(false);
         UpdateColor();
     }
     void UpdateColor()

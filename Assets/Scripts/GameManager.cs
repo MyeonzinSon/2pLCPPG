@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -48,6 +49,11 @@ public class GameManager : MonoBehaviour
         {
             RestartMap();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			SceneManager.LoadScene("Title");
+		}
     }
 
     static void ImportMap()
@@ -84,6 +90,11 @@ public class GameManager : MonoBehaviour
     }
     static void RestartWithoutDelay()
     {
+        ItemUI itemUI = FindObjectOfType<ItemUI>();
+        Debug.Log(itemUI);
+        itemUI.UpdateItemSlotState(Item.Null, 0);
+        itemUI.UpdateKeySlotState(false);
+
         RespawnOne();
         RespawnTwo();
         SetActiveOnRestart();
