@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     }
     static public void MapChange()
     {
+        RestartWithoutDelay();
         //test code start
         if (map == 3)
         { map = 0; }
@@ -78,6 +79,11 @@ public class GameManager : MonoBehaviour
     static IEnumerator Restart()
     {
         yield return new WaitForSeconds(1f);
+        RestartWithoutDelay();
+        yield return null;
+    }
+    static void RestartWithoutDelay()
+    {
         RespawnOne();
         RespawnTwo();
         SetActiveOnRestart();

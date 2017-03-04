@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoxDummy : MonoBehaviour {
+public class HeapOfBox : MonoBehaviour {
 
 	CircleCollider2D coll;
 	SpriteRenderer sr;

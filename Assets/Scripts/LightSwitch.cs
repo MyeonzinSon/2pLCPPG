@@ -28,13 +28,9 @@ public class LightSwitch : MonoBehaviour
         if ((coll.gameObject.tag == "PlayerOne") || (coll.gameObject.tag == "PlayerTwo"))
         {
             if (isLightbulbOn)
-            {
-                TurnOffLight();
-            }
+            { TurnOffLight(); }
             else
-            {
-                TurnOnLight();
-            }
+            { TurnOnLight(); }
         }
     }
 
