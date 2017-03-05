@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Rewired;
 
 public class PlayerOneController : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class PlayerOneController : MonoBehaviour
     Transform groundChecker;
     Transform ladderChecker;
     RaycastHit2D hit;
+    Player player;
 
     void Awake()
     {
@@ -47,6 +49,7 @@ public class PlayerOneController : MonoBehaviour
         groundChecker = transform.FindChild("GroundChecker");
         ladderChecker = transform.FindChild("LadderChecker");
         Initialize();
+        player = ReInput.players.GetPlayer(0);
     }
     void Start()
     { Initialize(); }
@@ -255,29 +258,29 @@ public class PlayerOneController : MonoBehaviour
 
     void InputKeys()
     {
-        if (Input.GetKeyDown("right"))
+        if (player.GetButtonDown("Horizontal"))
         { inputXDirection += 1; }
-        if (Input.GetKeyUp("right"))
+        if (player.GetButtonUp("Horizontal"))
         { inputXDirection -= 1; }
-        if (Input.GetKeyDown("left"))
+        if (player.GetNegativeButtonDown("Horizontal"))
         { inputXDirection -= 1; }
-        if (Input.GetKeyUp("left"))
+        if (player.GetNegativeButtonUp("Horizontal"))
         { inputXDirection += 1; }
 
-        if (Input.GetKeyDown("up"))
+        if (player.GetButtonDown("Vertical"))
         { inputYDirection += 1; inputYCount += 1; }
-        if (Input.GetKeyUp("up"))
+        if (player.GetButtonUp("Vertical"))
         { inputYDirection -= 1; inputYCount -= 1; }
-        if (Input.GetKeyDown("down"))
+        if (player.GetNegativeButtonDown("Vertical"))
         { inputYDirection -= 1; inputYCount += 1; }
-        if (Input.GetKeyUp("down"))
+        if (player.GetNegativeButtonUp("Vertical"))
         { inputYDirection += 1; inputYCount -= 1; }
 
-        if (Input.GetKeyDown("n"))
+        if (player.GetButtonDown("Jump"))
         { inputJumping = true; }
-        if (Input.GetKeyUp("n"))
+        if (player.GetButtonUp("Jump"))
         { inputJumping = false; }
-        if (Input.GetKeyDown("m"))
+        if (player.GetButtonDown("Action"))
         {
             CastAbility();
         }

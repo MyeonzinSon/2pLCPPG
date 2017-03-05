@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Rewired;
 
 public enum Item { Null, NoteSeven, BluePill, BallotPaper }
 public class ItemSlot
@@ -95,6 +96,7 @@ public class PlayerTwoController : MonoBehaviour
     public float bluePillJumpSpeed;
     public float bluePillTime;
     int bluePillCount;
+    Player player;
 
     ItemUI itemUI;
 
@@ -107,6 +109,7 @@ public class PlayerTwoController : MonoBehaviour
         initMoveSpeed = moveSpeed;
         initJumpSpeed = jumpSpeed;
         Initialize();
+        player = ReInput.players.GetPlayer(1);
     }
     void Start()
     { Initialize(); }
@@ -332,29 +335,29 @@ public class PlayerTwoController : MonoBehaviour
 
     void InputKeys()
     {
-        if (Input.GetKeyDown("d"))
+        if (player.GetButtonDown("Horizontal"))
         { inputXDirection += 1; lastXDirection = 1; }
-        if (Input.GetKeyUp("d"))
+        if (player.GetButtonUp("Horizontal"))
         { inputXDirection -= 1; }
-        if (Input.GetKeyDown("a"))
+        if (player.GetNegativeButtonDown("Horizontal"))
         { inputXDirection -= 1; lastXDirection = -1; }
-        if (Input.GetKeyUp("a"))
+        if (player.GetNegativeButtonUp("Horizontal"))
         { inputXDirection += 1; }
 
-        if (Input.GetKeyDown("w"))
+        if (player.GetButtonDown("Vertical"))
         { inputYDirection += 1; inputYCount += 1; lastXDirection = 0; }
-        if (Input.GetKeyUp("w"))
+        if (player.GetButtonUp("Vertical"))
         { inputYDirection -= 1; inputYCount -= 1; }
-        if (Input.GetKeyDown("s"))
+        if (player.GetNegativeButtonDown("Vertical"))
         { inputYDirection -= 1; inputYCount += 1; lastXDirection = 0; }
-        if (Input.GetKeyUp("s"))
+        if (player.GetNegativeButtonUp("Vertical"))
         { inputYDirection += 1; inputYCount -= 1; }
 
-        if (Input.GetKeyDown("z"))
+        if (player.GetButtonDown("Jump"))
         { inputJumping = true; }
-        if (Input.GetKeyUp("z"))
+        if (player.GetButtonUp("Jump"))
         { inputJumping = false; }
-        if (Input.GetKeyDown("x"))
+        if (player.GetButtonDown("Action"))
         {
             CastAbility();
         }
