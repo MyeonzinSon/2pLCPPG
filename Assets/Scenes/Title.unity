@@ -234,12 +234,32 @@ Prefab:
     - target: {fileID: 114273756414653550, guid: 0be47f2619d2841e2b93cee3cccc74fc,
         type: 2}
       propertyPath: _userData.keyboardMaps.Array.data[1].actionElementMaps.Array.data[4]._keyboardKeyCode
-      value: 118
+      value: 122
       objectReference: {fileID: 0}
     - target: {fileID: 114273756414653550, guid: 0be47f2619d2841e2b93cee3cccc74fc,
         type: 2}
       propertyPath: _userData.keyboardMaps.Array.data[1].actionElementMaps.Array.data[5]._keyboardKeyCode
-      value: 98
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 114273756414653550, guid: 0be47f2619d2841e2b93cee3cccc74fc,
+        type: 2}
+      propertyPath: _userData.keyboardMaps.Array.data[1].actionElementMaps.Array.data[0]._keyboardKeyCode
+      value: 114
+      objectReference: {fileID: 0}
+    - target: {fileID: 114273756414653550, guid: 0be47f2619d2841e2b93cee3cccc74fc,
+        type: 2}
+      propertyPath: _userData.keyboardMaps.Array.data[1].actionElementMaps.Array.data[1]._keyboardKeyCode
+      value: 102
+      objectReference: {fileID: 0}
+    - target: {fileID: 114273756414653550, guid: 0be47f2619d2841e2b93cee3cccc74fc,
+        type: 2}
+      propertyPath: _userData.keyboardMaps.Array.data[1].actionElementMaps.Array.data[2]._keyboardKeyCode
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 114273756414653550, guid: 0be47f2619d2841e2b93cee3cccc74fc,
+        type: 2}
+      propertyPath: _userData.keyboardMaps.Array.data[1].actionElementMaps.Array.data[3]._keyboardKeyCode
+      value: 103
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0be47f2619d2841e2b93cee3cccc74fc, type: 2}

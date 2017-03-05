@@ -2236,7 +2236,7 @@ TextMesh:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 166602654}
   m_Text: "\uC0AC\uB2E4\uB9AC \uD0C0\uAE30\n\uB2ED) \uC704\uC544\uB798 \uBC29\uD5A5\uD0A4\n\uC2DC\uB9AC)
-    w, s \uD0A4"
+    R, F \uD0A4"
   m_OffsetZ: 0
   m_CharacterSize: 0.5
   m_LineSpacing: 1
@@ -6167,6 +6167,12 @@ Prefab:
     - target: {fileID: 4231994577173882, guid: 5912d2a0f23ca4ca3834a3b017bcd29b, type: 2}
       propertyPath: m_RootOrder
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 102312436236103496, guid: 5912d2a0f23ca4ca3834a3b017bcd29b,
+        type: 2}
+      propertyPath: m_Text
+      value: "\uB2ED ) \uC774\uB3D9 : \uBC29\uD5A5\uD0A4 / \uC810\uD504 : O\n\uC2DC\uB9AC)
+        \uC774\uB3D9 : D, G /  \uC810\uD504 : Z"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5912d2a0f23ca4ca3834a3b017bcd29b, type: 2}
@@ -24754,8 +24760,8 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1963324344}
-  m_Text: "\uB2ED) \uC720\uCCB4\uC774\uD0C8 or \uBCF5\uADC0 : m\n\uC2DC\uB9AC) \uC544\uC774\uD15C
-    \uC90D\uAE30 or \uC0AC\uC6A9 : x\n\uC7AC\uC2DC\uC791 : r"
+  m_Text: "\uB2ED) \uC720\uCCB4\uC774\uD0C8 or \uBCF5\uADC0 : P\n\uC2DC\uB9AC) \uC544\uC774\uD15C
+    \uC90D\uAE30 or \uC0AC\uC6A9 : X\n\uC7AC\uC2DC\uC791 : R"
   m_OffsetZ: 0
   m_CharacterSize: 0.5
   m_LineSpacing: 1
