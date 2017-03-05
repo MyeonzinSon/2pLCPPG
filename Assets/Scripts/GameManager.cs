@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     static public GameManager instance;
 
+    public static List<GameObject> effectObjects;
+
     void Awake()
     {
         instance = this;
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        effectObjects = new List<GameObject>();
         flexibleObjects = new List<GameObject>();
         FindObjectsOfType<RestartDestroy>().ToList().ForEach(x => flexibleObjects.Add(x.gameObject));
     }
@@ -94,6 +97,7 @@ public class GameManager : MonoBehaviour
         Debug.Log(itemUI);
         itemUI.UpdateItemSlotState(Item.Null, 0);
         itemUI.UpdateKeySlotState(false);
+        effectObjects.ForEach(obj => Destroy(obj));
 
         RespawnOne();
         RespawnTwo();

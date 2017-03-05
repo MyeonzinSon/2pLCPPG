@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Linq;
+using Rewired;
 
 public class PlayerOneController : MonoBehaviour
 {
@@ -40,12 +41,14 @@ public class PlayerOneController : MonoBehaviour
     Transform groundChecker;
     Transform ladderChecker;
     RaycastHit2D hit;
+    Player player;
 
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         groundChecker = transform.FindChild("GroundChecker");
         ladderChecker = transform.FindChild("LadderChecker");
+        player = ReInput.players.GetPlayer(0);
         Initialize();
     }
     void Start()
@@ -255,29 +258,29 @@ public class PlayerOneController : MonoBehaviour
 
     void InputKeys()
     {
-        if (Input.GetKeyDown("right"))
+        if (player.GetButtonDown("Horizontal"))
         { inputXDirection += 1; }
-        if (Input.GetKeyUp("right"))
+        if (player.GetButtonUp("Horizontal"))
         { inputXDirection -= 1; }
-        if (Input.GetKeyDown("left"))
+        if (player.GetNegativeButtonDown("Horizontal"))
         { inputXDirection -= 1; }
-        if (Input.GetKeyUp("left"))
+        if (player.GetNegativeButtonUp("Horizontal"))
         { inputXDirection += 1; }
 
-        if (Input.GetKeyDown("up"))
+        if (player.GetButtonDown("Vertical"))
         { inputYDirection += 1; inputYCount += 1; }
-        if (Input.GetKeyUp("up"))
+        if (player.GetButtonUp("Vertical"))
         { inputYDirection -= 1; inputYCount -= 1; }
-        if (Input.GetKeyDown("down"))
+        if (player.GetNegativeButtonDown("Vertical"))
         { inputYDirection -= 1; inputYCount += 1; }
-        if (Input.GetKeyUp("down"))
+        if (player.GetNegativeButtonUp("Vertical"))
         { inputYDirection += 1; inputYCount -= 1; }
 
-        if (Input.GetKeyDown("n"))
+        if (player.GetButtonDown("Jump"))
         { inputJumping = true; }
-        if (Input.GetKeyUp("n"))
+        if (player.GetButtonUp("Jump"))
         { inputJumping = false; }
-        if (Input.GetKeyDown("m"))
+        if (player.GetButtonDown("Action"))
         {
             CastAbility();
         }
@@ -328,13 +331,13 @@ public class PlayerOneController : MonoBehaviour
         inputXDirection = 0;
         inputYDirection = 0;
         inputYCount = 0;
-        if (Input.GetKey("right"))
+        if (player.GetButton("Horizontal"))
         { inputXDirection += 1; }
-        if (Input.GetKey("left"))
+        if (player.GetNegativeButton("Horizontal"))
         { inputXDirection -= 1; }
-        if(Input.GetKey("up"))
+        if(player.GetButton("Vertical"))
         { inputYDirection += 1; inputYCount += 1; }
-        if (Input.GetKey("down"))
+        if (player.GetNegativeButton("Vertical"))
         { inputYDirection -= 1; inputYCount += 1; }
         GetComponent<SpriteRenderer>().color = Color.white;
         Vector3 origin = groundChecker.localPosition;

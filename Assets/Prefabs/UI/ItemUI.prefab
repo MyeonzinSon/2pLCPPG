@@ -185,9 +185,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trans: {fileID: 21300000, guid: 1a910d28457d446a6b0f08f13aa404ae, type: 3}
-  bluepill: {fileID: 21300000, guid: 527960ecc35842e4ebcf723002cad836, type: 3}
-  note7: {fileID: 21300000, guid: 33255b66283f1104898eb4c41b24ccb8, type: 3}
-  paper: {fileID: 21300000, guid: 0486e50f91e4e4f4d9ca96d95702f9ea, type: 3}
+  bluepill: {fileID: 21300000, guid: fc5a28cd110ff453fb3fb470d7750647, type: 3}
+  note7: {fileID: 21300000, guid: 6ace55c5fa46a4118808ede57d643858, type: 3}
+  paper: {fileID: 21300000, guid: b7580488de9e64906a62dbec774d3cf0, type: 3}
   key: {fileID: 21300000, guid: 7fdd92b36cf25044b850590ae9f90832, type: 3}
 --- !u!114 &114618495378967070
 MonoBehaviour:
