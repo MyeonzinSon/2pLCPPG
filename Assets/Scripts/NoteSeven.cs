@@ -26,8 +26,11 @@ public class NoteSeven : MonoBehaviour
     }
     void Explode()
     {
-        Instantiate(explodeObjectRed, transform.position, Quaternion.identity);
-        Instantiate(explodeObjectYellow, transform.position, Quaternion.identity);
+        GameObject eff1 = Instantiate(explodeObjectRed, transform.position, Quaternion.identity) as GameObject;
+        GameObject eff2 = Instantiate(explodeObjectYellow, transform.position, Quaternion.identity) as GameObject;
+
+        GameManager.effectObjects.Add(eff1);
+        GameManager.effectObjects.Add(eff2);
 
         nearByColliders = Physics2D.OverlapCircleAll(gameObject.transform.position, explosionRadius, layerMasks);
         foreach (var collider in nearByColliders)
