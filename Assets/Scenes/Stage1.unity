@@ -24761,7 +24761,7 @@ TextMesh:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1963324344}
   m_Text: "\uB2ED) \uC720\uCCB4\uC774\uD0C8 or \uBCF5\uADC0 : P\n\uC2DC\uB9AC) \uC544\uC774\uD15C
-    \uC90D\uAE30 or \uC0AC\uC6A9 : X\n\uC7AC\uC2DC\uC791 : R"
+    \uC90D\uAE30 or \uC0AC\uC6A9 : X\n\uC7AC\uC2DC\uC791 : 7"
   m_OffsetZ: 0
   m_CharacterSize: 0.5
   m_LineSpacing: 1

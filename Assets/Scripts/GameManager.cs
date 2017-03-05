@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("r"))
+        if (Input.GetKeyDown("7"))
         {
             RestartWithoutDelay();
         }
