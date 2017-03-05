@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown("r"))
         {
-            RestartMap();
+            RestartWithoutDelay();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
