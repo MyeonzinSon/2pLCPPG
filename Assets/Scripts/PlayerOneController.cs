@@ -48,8 +48,8 @@ public class PlayerOneController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         groundChecker = transform.FindChild("GroundChecker");
         ladderChecker = transform.FindChild("LadderChecker");
-        Initialize();
         player = ReInput.players.GetPlayer(0);
+        Initialize();
     }
     void Start()
     { Initialize(); }

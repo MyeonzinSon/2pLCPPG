@@ -108,8 +108,8 @@ public class PlayerTwoController : MonoBehaviour
         ladderChecker = transform.FindChild("LadderChecker");
         initMoveSpeed = moveSpeed;
         initJumpSpeed = jumpSpeed;
-        Initialize();
         player = ReInput.players.GetPlayer(1);
+        Initialize();
     }
     void Start()
     { Initialize(); }
