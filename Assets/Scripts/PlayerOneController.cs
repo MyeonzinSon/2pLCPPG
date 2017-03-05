@@ -331,13 +331,13 @@ public class PlayerOneController : MonoBehaviour
         inputXDirection = 0;
         inputYDirection = 0;
         inputYCount = 0;
-        if (Input.GetKey("right"))
+        if (player.GetButton("Horizontal"))
         { inputXDirection += 1; }
-        if (Input.GetKey("left"))
+        if (player.GetNegativeButton("Horizontal"))
         { inputXDirection -= 1; }
-        if(Input.GetKey("up"))
+        if(player.GetButton("Vertical"))
         { inputYDirection += 1; inputYCount += 1; }
-        if (Input.GetKey("down"))
+        if (player.GetNegativeButton("Vertical"))
         { inputYDirection -= 1; inputYCount += 1; }
         GetComponent<SpriteRenderer>().color = Color.white;
         Vector3 origin = groundChecker.localPosition;

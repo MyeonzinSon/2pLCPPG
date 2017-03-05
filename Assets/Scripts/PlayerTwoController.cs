@@ -430,13 +430,13 @@ public class PlayerTwoController : MonoBehaviour
         inputXDirection = 0;
         inputYDirection = 0;
         inputYCount = 0;
-        if (Input.GetKey("d"))
+        if (player.GetButton("Horizontal"))
         { inputXDirection += 1; }
-        if (Input.GetKey("a"))
+        if (player.GetNegativeButton("Horizontal"))
         { inputXDirection -= 1; }
-        if (Input.GetKey("w"))
+        if (player.GetButton("Vertical"))
         { inputYDirection += 1; inputYCount += 1; }
-        if (Input.GetKey("s"))
+        if (player.GetNegativeButton("Vertical"))
         { inputYDirection -= 1; inputYCount += 1; }
         transform.rotation = Quaternion.Euler(0, 0, 0);
         itemSlot = new ItemSlot();
