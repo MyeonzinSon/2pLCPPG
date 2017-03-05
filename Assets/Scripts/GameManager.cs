@@ -71,10 +71,7 @@ public class GameManager : MonoBehaviour
     static public void MapChange()
     {
         RestartWithoutDelay();
-        //test code start
-        if (map == 3)
-        { map = 0; }
-        //test code end
+        if (map == 3){ return; }
         map += 1;
         ImportMap();
         RespawnOne();
@@ -94,7 +91,6 @@ public class GameManager : MonoBehaviour
     static void RestartWithoutDelay()
     {
         ItemUI itemUI = FindObjectOfType<ItemUI>();
-        Debug.Log(itemUI);
         itemUI.UpdateItemSlotState(Item.Null, 0);
         itemUI.UpdateKeySlotState(false);
         effectObjects.ForEach(obj => Destroy(obj));

@@ -5,6 +5,7 @@ using UnityEngine;
 public class RestartDestroy : MonoBehaviour
 {
     Vector3 originPosition;
+    public GameObject soundCollapse;
 
     void Start()
     {
@@ -30,6 +31,7 @@ public class RestartDestroy : MonoBehaviour
     IEnumerator PseudoPseudoDestroy(float delay)
     {
         yield return new WaitForSeconds(delay);
+        Instantiate<GameObject>(soundCollapse, transform.position, transform.rotation);
         PseudoDestroy();
         yield return null;
     }

@@ -12,6 +12,8 @@ public class LightSwitch : MonoBehaviour
     public Sprite inactiveSprite;
     public Sprite activeSprite;
 
+    public GameObject soundClick;
+
     void Start()
     {
         Initialize();
@@ -27,6 +29,7 @@ public class LightSwitch : MonoBehaviour
     {
         if ((coll.gameObject.tag == "PlayerOne") || (coll.gameObject.tag == "PlayerTwo"))
         {
+            Instantiate<GameObject>(soundClick, transform.position, transform.rotation);
             if (isLightbulbOn)
             { TurnOffLight(); }
             else

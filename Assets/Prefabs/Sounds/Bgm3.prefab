@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 82013039791942642}
   - component: {fileID: 114193409354019576}
   m_Layer: 0
-  m_Name: Bgm2
+  m_Name: Bgm3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,4 +132,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66a7e20189d52549bdc9e66aca4e02d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 92378cbb54b09514fbe6ad608422dbd5, type: 3}
+  clip: {fileID: 8300000, guid: c304c896506bb0a4ab2b69bdc4674113, type: 3}

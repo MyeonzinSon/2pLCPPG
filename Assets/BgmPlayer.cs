@@ -6,6 +6,10 @@ public class BgmPlayer : MonoBehaviour {
 
     public AudioClip clip;
 
+    void Start()
+    {
+        StartPlay();
+    }
     public void StartPlay()
     {
         StartCoroutine(PlayBgm());

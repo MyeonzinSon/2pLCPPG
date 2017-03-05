@@ -208,6 +208,11 @@ MonoBehaviour:
   layerMaskRope:
     serializedVersion: 2
     m_Bits: 524288
+  soundJump: {fileID: 1392942807679696, guid: 545e377f25af549458aefbbbabf46552, type: 2}
+  soundAbillityUp: {fileID: 1392942807679696, guid: e6ec4c55dd3d3554cb2905e8ad2d10c6,
+    type: 2}
+  soundAbillityDown: {fileID: 1392942807679696, guid: b18492984c6e2ec4cbf70c0eb4f68509,
+    type: 2}
 --- !u!212 &212807664221498838
 SpriteRenderer:
   m_ObjectHideFlags: 1

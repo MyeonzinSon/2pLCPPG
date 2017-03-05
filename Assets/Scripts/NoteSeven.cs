@@ -14,6 +14,7 @@ public class NoteSeven : MonoBehaviour
 
     public GameObject explodeObjectRed;
     public GameObject explodeObjectYellow;
+    public GameObject soundExplosion;
 
     void Start()
     {
@@ -33,6 +34,7 @@ public class NoteSeven : MonoBehaviour
         GameManager.effectObjects.Add(eff2);
 
         nearByColliders = Physics2D.OverlapCircleAll(gameObject.transform.position, explosionRadius, layerMasks);
+        Instantiate<GameObject>(soundExplosion, transform.position, transform.rotation);
         foreach (var collider in nearByColliders)
         {
             if (collider.gameObject.tag == "Enemy")

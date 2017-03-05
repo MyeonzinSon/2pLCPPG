@@ -82,6 +82,11 @@ public class PlayerTwoController : MonoBehaviour
     public LayerMask layerMaskItemBluePill;
     public LayerMask layerMaskRope;
 
+    public GameObject soundJump;
+    public GameObject soundBallotPaper;
+    public GameObject soundBluePill;
+    public GameObject soundNoteSevenThrow;
+
     Rigidbody2D rb2d;
     float otherLadderX;
 
@@ -136,6 +141,7 @@ public class PlayerTwoController : MonoBehaviour
                     { break; }
                 case Item.NoteSeven:
                     {
+                        Instantiate<GameObject>(soundNoteSevenThrow, transform.position, transform.rotation);
                         Vector2 newPosition = new Vector2(gameObject.transform.position.x + lastXDirection * 0.45f, gameObject.transform.position.y);
                         GameObject clone = Instantiate(NoteSeven, newPosition, gameObject.transform.rotation) as GameObject;
                         clone.GetComponent<Rigidbody2D>().velocity = new Vector2(lastXDirection * moveSpeed, jumpSpeed);
@@ -143,12 +149,12 @@ public class PlayerTwoController : MonoBehaviour
                     }
                 case Item.BluePill:
                     {
+                        Instantiate<GameObject>(soundBluePill, transform.position, transform.rotation);
                         StartCoroutine(BluePill());
                         break;
                     }
                 case Item.BallotPaper:
                     {
-                        Debug.Log("asdf");
                         if (isOnLadder)
                         {
                             isOnLadder = false;
@@ -156,9 +162,16 @@ public class PlayerTwoController : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log("qwer");
-                            isOnPlatform = false;
-                            SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
+                            if (isOnPlatform)
+                            {
+                                itemSlot.GetItem(Item.BallotPaper);
+                            }
+                            else
+                            {
+                                Instantiate<GameObject>(soundBallotPaper, transform.position, transform.rotation);
+                                SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
+                                isOnPlatform = false;  
+                            }
                         }
                         break;
                     }
@@ -238,6 +251,7 @@ public class PlayerTwoController : MonoBehaviour
             gameObject.transform.position = new Vector3(otherLadderX, gameObject.transform.position.y, gameObject.transform.position.z);
             if (inputJumping)
             {
+                Instantiate<GameObject>(soundJump, transform.position, transform.rotation);
                 isOnLadder = false;
                 SetVelocity(inputXDirection * moveSpeed * 0.7f, jumpSpeed * 0.7f);
             }
@@ -256,6 +270,7 @@ public class PlayerTwoController : MonoBehaviour
 
             if (inputJumping)
             {
+                Instantiate<GameObject>(soundJump, transform.position, transform.rotation);
                 isOnRope = false;
                 SetVelocity(inputXDirection * moveSpeed * 0.7f, Sign(gravity) * jumpSpeed * 0.7f);
             } 
@@ -289,6 +304,7 @@ public class PlayerTwoController : MonoBehaviour
         {
             if (inputJumping)
             {
+                Instantiate<GameObject>(soundJump, transform.position, transform.rotation);
                 isOnPlatform = false;
                 SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
             }
@@ -306,7 +322,10 @@ public class PlayerTwoController : MonoBehaviour
             {
                 AddVelocity(inputXDirection * moveForce, 0f);
                 if (inputJumping)
-                { AddVelocity(0f, jumpSpeed); }
+                {
+                    Instantiate<GameObject>(soundJump, transform.position, transform.rotation);
+                    AddVelocity(0f, jumpSpeed);
+                }
             }
         }
 
@@ -361,28 +380,6 @@ public class PlayerTwoController : MonoBehaviour
         {
             CastAbility();
         }
-
-        //test item {
-        if (Input.GetKey("e"))
-        {
-            if (!itemSlot.IsBlank())
-            {
-                itemSlot.GetItem(itemSlot.item);
-            }
-        }
-        if (Input.GetKeyDown("g"))
-        {
-            switch (itemSlot.item)
-            {
-                case Item.Null: itemSlot.item = Item.NoteSeven; break;
-                case Item.NoteSeven: itemSlot.item = Item.BallotPaper; break;
-                case Item.BallotPaper: itemSlot.item = Item.BluePill; break;
-                case Item.BluePill: itemSlot.item = Item.NoteSeven; break;
-            }
-            itemSlot.numOfItem = 1;
-            Debug.Log(itemSlot.item);
-        }
-        //test item }
 
     }
     void CollisionCheck()

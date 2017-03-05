@@ -189,6 +189,13 @@ MonoBehaviour:
   layerMaskRope:
     serializedVersion: 2
     m_Bits: 524288
+  soundJump: {fileID: 1392942807679696, guid: 2fb187372f4c5784493b42b2a3740476, type: 2}
+  soundBallotPaper: {fileID: 1392942807679696, guid: ead3548b4a9598e4cb661f64569cc9f0,
+    type: 2}
+  soundBluePill: {fileID: 1392942807679696, guid: e91db8b9255617347aa32b35bc106723,
+    type: 2}
+  soundNoteSevenThrow: {fileID: 1392942807679696, guid: 13c27f0c5408cf546b5366d5ffd24484,
+    type: 2}
   NoteSeven: {fileID: 1338351242196428, guid: 29fa59db8181cbd4dac72b1159905204, type: 2}
   bluePillMoveSpeed: 12
   bluePillJumpSpeed: 24

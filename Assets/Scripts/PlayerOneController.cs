@@ -35,6 +35,10 @@ public class PlayerOneController : MonoBehaviour
     public LayerMask layerMaskLadder;
     public LayerMask layerMaskRope;
 
+    public GameObject soundJump;
+    public GameObject soundAbillityUp;
+    public GameObject soundAbillityDown;
+
     Rigidbody2D rb2d;
     float otherLadderX;
 
@@ -114,6 +118,7 @@ public class PlayerOneController : MonoBehaviour
             gameObject.transform.position = new Vector3(otherLadderX, gameObject.transform.position.y, gameObject.transform.position.z);
             if (inputJumping)
             {
+                Instantiate<GameObject>(soundJump, transform.position, transform.rotation);
                 isOnLadder = false;
                 SetVelocity(inputXDirection * moveSpeed*0.7f, Sign(gravity) * jumpSpeed * 0.7f);
             }
@@ -132,6 +137,7 @@ public class PlayerOneController : MonoBehaviour
 
             if (inputJumping)
             {
+                Instantiate<GameObject>(soundJump, transform.position, transform.rotation);
                 isOnRope = false;
                 SetVelocity(inputXDirection * moveSpeed * 0.7f, Sign(gravity) * jumpSpeed * 0.7f);
             } 
@@ -159,11 +165,11 @@ public class PlayerOneController : MonoBehaviour
                 SetVelocity(0f, 0f);
             }
         }
-
         if (isOnPlatform)
         {
             if (inputJumping)
             {
+                Instantiate<GameObject>(soundJump, transform.position, transform.rotation);
                 isOnPlatform = false;
                 SetVelocity(rb2d.velocity.x, jumpSpeed * Sign(gravity));
             }
@@ -237,6 +243,7 @@ public class PlayerOneController : MonoBehaviour
 
         if (!isAbilityActive)
         {
+            Instantiate<GameObject>(soundAbillityUp, transform.position, transform.rotation);
             SetVelocity(0f, 0f);
             isAbilityActive = true;
             existDummyObject = Instantiate(dummyObject, transform.position, transform.rotation) as GameObject;
@@ -246,6 +253,7 @@ public class PlayerOneController : MonoBehaviour
         else
         {
             if (!CanReturnToBody()) return;
+            Instantiate<GameObject>(soundAbillityDown, transform.position, transform.rotation);
             isReturningFromAbility = true;
             SetVelocity(0f, 0f);
             Vector3 origin = groundChecker.localPosition;

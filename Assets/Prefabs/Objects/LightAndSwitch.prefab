@@ -193,6 +193,7 @@ MonoBehaviour:
   initStateOn: 1
   inactiveSprite: {fileID: 21300000, guid: 5b9e8a8f996dffe4eb5aeb67fbf146e7, type: 3}
   activeSprite: {fileID: 21300000, guid: 6787bb2ca645def459c1275689bde47a, type: 3}
+  soundClick: {fileID: 1392942807679696, guid: daae0986f8c134c4290e6fb0e4d62a1b, type: 2}
 --- !u!212 &212229252297689946
 SpriteRenderer:
   m_ObjectHideFlags: 1

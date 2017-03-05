@@ -100,6 +100,8 @@ MonoBehaviour:
     type: 2}
   explodeObjectYellow: {fileID: 1000012543802248, guid: 69c88b0e8deb34e49a7ec1121fdfa05f,
     type: 2}
+  soundExplosion: {fileID: 1392942807679696, guid: 1dac5c750203e9e4a900320976ec82af,
+    type: 2}
 --- !u!114 &114699142327623118
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -141,6 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 1392942807679696, guid: bd2a4e6b2b4ddc34bb57b216e45d62a8,
+    type: 2}
 --- !u!114 &6016445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4522,6 +4524,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 1392942807679696, guid: bd2a4e6b2b4ddc34bb57b216e45d62a8,
+    type: 2}
 --- !u!114 &331060680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4901,6 +4905,53 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!1001 &363851741
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 785693062}
+    m_Modifications:
+    - target: {fileID: 4134175177239414, guid: 2ee32ed156ecd7e4ab1b014f14abb5a9, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 1.5817769
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134175177239414, guid: 2ee32ed156ecd7e4ab1b014f14abb5a9, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2.8813643
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134175177239414, guid: 2ee32ed156ecd7e4ab1b014f14abb5a9, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134175177239414, guid: 2ee32ed156ecd7e4ab1b014f14abb5a9, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134175177239414, guid: 2ee32ed156ecd7e4ab1b014f14abb5a9, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134175177239414, guid: 2ee32ed156ecd7e4ab1b014f14abb5a9, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134175177239414, guid: 2ee32ed156ecd7e4ab1b014f14abb5a9, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134175177239414, guid: 2ee32ed156ecd7e4ab1b014f14abb5a9, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2ee32ed156ecd7e4ab1b014f14abb5a9, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &363851742 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4134175177239414, guid: 2ee32ed156ecd7e4ab1b014f14abb5a9,
+    type: 2}
+  m_PrefabInternal: {fileID: 363851741}
 --- !u!1 &364749557
 GameObject:
   m_ObjectHideFlags: 0
@@ -5018,6 +5069,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 1392942807679696, guid: bd2a4e6b2b4ddc34bb57b216e45d62a8,
+    type: 2}
 --- !u!114 &366474852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6128,6 +6181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 0}
 --- !u!61 &432392938
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6877,6 +6931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 0}
 --- !u!114 &476266455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7384,6 +7439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 0}
 --- !u!61 &503142227
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8500,6 +8556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 0}
 --- !u!114 &583923736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11612,6 +11669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 0}
 --- !u!61 &765275710
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11844,7 +11902,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 363851742}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12822,6 +12881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 0}
 --- !u!114 &864740565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13140,6 +13200,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 1392942807679696, guid: bd2a4e6b2b4ddc34bb57b216e45d62a8,
+    type: 2}
 --- !u!114 &892114392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16994,6 +17056,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 1392942807679696, guid: bd2a4e6b2b4ddc34bb57b216e45d62a8,
+    type: 2}
 --- !u!114 &1159033905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18335,6 +18399,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 1392942807679696, guid: bd2a4e6b2b4ddc34bb57b216e45d62a8,
+    type: 2}
 --- !u!114 &1223240532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20899,6 +20965,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 1392942807679696, guid: bd2a4e6b2b4ddc34bb57b216e45d62a8,
+    type: 2}
 --- !u!114 &1370273348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23705,6 +23773,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 1392942807679696, guid: bd2a4e6b2b4ddc34bb57b216e45d62a8,
+    type: 2}
 --- !u!114 &1548913801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26799,6 +26869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02bb191f2dfcd4740a84172d9ad2cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundCollapse: {fileID: 0}
 --- !u!61 &1718813663
 BoxCollider2D:
   m_ObjectHideFlags: 0
