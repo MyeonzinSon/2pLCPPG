@@ -221,6 +221,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114273756414653550, guid: 0be47f2619d2841e2b93cee3cccc74fc,
+        type: 2}
+      propertyPath: _userData.keyboardMaps.Array.data[0].actionElementMaps.Array.data[4]._keyboardKeyCode
+      value: 111
+      objectReference: {fileID: 0}
+    - target: {fileID: 114273756414653550, guid: 0be47f2619d2841e2b93cee3cccc74fc,
+        type: 2}
+      propertyPath: _userData.keyboardMaps.Array.data[0].actionElementMaps.Array.data[5]._keyboardKeyCode
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 114273756414653550, guid: 0be47f2619d2841e2b93cee3cccc74fc,
+        type: 2}
+      propertyPath: _userData.keyboardMaps.Array.data[1].actionElementMaps.Array.data[4]._keyboardKeyCode
+      value: 118
+      objectReference: {fileID: 0}
+    - target: {fileID: 114273756414653550, guid: 0be47f2619d2841e2b93cee3cccc74fc,
+        type: 2}
+      propertyPath: _userData.keyboardMaps.Array.data[1].actionElementMaps.Array.data[5]._keyboardKeyCode
+      value: 98
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0be47f2619d2841e2b93cee3cccc74fc, type: 2}
   m_IsPrefabParent: 0

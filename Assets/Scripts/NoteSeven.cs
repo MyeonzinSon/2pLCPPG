@@ -32,6 +32,7 @@ public class NoteSeven : MonoBehaviour
 
         GameManager.effectObjects.Add(eff1);
         GameManager.effectObjects.Add(eff2);
+        GameManager.TriggerCleanEffect();
 
         nearByColliders = Physics2D.OverlapCircleAll(gameObject.transform.position, explosionRadius, layerMasks);
         Instantiate<GameObject>(soundExplosion, transform.position, transform.rotation);

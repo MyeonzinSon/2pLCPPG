@@ -32,6 +32,6 @@ public class ActiveOnLight : MonoBehaviour {
 	void SetInactiveByLight()
 	{
 		coll.isTrigger = true;
-		childrenObjects.ForEach(go => go.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.6f));
+		childrenObjects.ForEach(go => go.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.3f));
 	}
 }

@@ -169,7 +169,7 @@ MonoBehaviour:
   gravity: 1.4
   moveSpeed: 6
   ladderSpeed: 5
-  jumpSpeed: 18
+  jumpSpeed: 18.5
   ropeSpeed: 0.01
   layerMaskPlatform:
     serializedVersion: 2

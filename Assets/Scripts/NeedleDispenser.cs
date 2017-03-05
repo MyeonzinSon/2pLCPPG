@@ -23,7 +23,7 @@ public class NeedleDispenser : MonoBehaviour
         {
             Quaternion origin = transform.rotation;
             float speed = needleSpeed * Sign(origin.y - 0.5f) * -1;
-            GameObject clone = Instantiate(Needle, transform.localPosition, transform.rotation) as GameObject;
+            GameObject clone = Instantiate(Needle, transform.position, transform.rotation) as GameObject;
             clone.GetComponent<PoisonedNeedle>().speed = speed;
             yield return new WaitForSeconds(waitTime);
         }

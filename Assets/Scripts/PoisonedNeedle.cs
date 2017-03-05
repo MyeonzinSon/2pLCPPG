@@ -30,12 +30,11 @@ public class PoisonedNeedle : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("hello");
         if (other.gameObject.tag == "PlayerOne")
             other.gameObject.GetComponent<PlayerOneController>().Die();
         if (other.gameObject.tag == "PlayerTwo")
             other.gameObject.GetComponent<PlayerTwoController>().Die();
-        if (other.gameObject.tag == "Platform" && born)
+        if (other.gameObject.tag == "Platform" && born && other.isTrigger == false)
         { Destroy(gameObject); }
     }
     void OnTriggerExit2D(Collider2D other)

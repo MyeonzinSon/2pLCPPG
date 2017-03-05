@@ -135,4 +135,14 @@ public class GameManager : MonoBehaviour
     {
         MainCamera.transform.position = new Vector3(Map.transform.position.x, Map.transform.position.y, MainCamera.transform.position.z);
     }
+    static public void TriggerCleanEffect()
+    {
+        instance.StartCoroutine(CleanEffect());
+    }
+    static IEnumerator CleanEffect()
+    {
+        yield return new WaitForSeconds(0.9f);
+        effectObjects.ForEach(obj => Destroy(obj));
+        yield return null;
+    }
 }
