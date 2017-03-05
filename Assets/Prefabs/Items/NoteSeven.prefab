@@ -96,6 +96,10 @@ MonoBehaviour:
   layerMasks:
     serializedVersion: 2
     m_Bits: 143616
+  explodeObjectRed: {fileID: 1968828599306126, guid: beb41ce1ac0d148b2a97266f5327938c,
+    type: 2}
+  explodeObjectYellow: {fileID: 1000012543802248, guid: 69c88b0e8deb34e49a7ec1121fdfa05f,
+    type: 2}
 --- !u!114 &114699142327623118
 MonoBehaviour:
   m_ObjectHideFlags: 1
