@@ -25,6 +25,10 @@ public class StartButton : MonoBehaviour {
 		{
 			SceneManager.LoadScene("Stage2");
 		}
+        if (Input.GetKeyDown("enter"))
+        {
+            SceneManager.LoadScene("Stage1");
+        }
 	}
 	
 	void OnMouseDown()

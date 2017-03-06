@@ -165,7 +165,7 @@ public class PlayerOneController : MonoBehaviour
                 SetVelocity(0f, 0f);
             }
         }
-        if (isOnPlatform)
+        if (isOnPlatform && !isReturningFromAbility)
         {
             if (inputJumping)
             {
@@ -206,6 +206,7 @@ public class PlayerOneController : MonoBehaviour
 
         if (isReturningFromAbility && existDummyObject != null && other.gameObject == existDummyObject)
         {
+            GetComponent<BoxCollider2D>().isTrigger = false;
             isAbilityActive = false;
             isReturningFromAbility = false;
             Destroy(existDummyObject);
@@ -255,6 +256,7 @@ public class PlayerOneController : MonoBehaviour
             if (!CanReturnToBody()) return;
             Instantiate<GameObject>(soundAbillityDown, transform.position, transform.rotation);
             isReturningFromAbility = true;
+            GetComponent<BoxCollider2D>().isTrigger = true;
             SetVelocity(0f, 0f);
             Vector3 origin = groundChecker.localPosition;
             groundChecker.localPosition = new Vector3(origin.x, -1 * origin.y, origin.z);
@@ -349,6 +351,7 @@ public class PlayerOneController : MonoBehaviour
         { inputYDirection -= 1; inputYCount += 1; }
         GetComponent<SpriteRenderer>().color = Color.white;
         GetComponent<Animator>().SetTrigger("Initialize");
+        GetComponent<BoxCollider2D>().isTrigger = false;
         Vector3 origin = groundChecker.localPosition;
         groundChecker.localPosition = new Vector3(origin.x, -1 * Mathf.Abs(origin.y), origin.z);
         transform.rotation = Quaternion.Euler(0, 180, 0);

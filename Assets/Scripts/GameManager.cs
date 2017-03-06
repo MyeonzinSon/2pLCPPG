@@ -86,7 +86,6 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         RestartWithoutDelay();
-        yield return null;
     }
     static void RestartWithoutDelay()
     {
@@ -94,12 +93,15 @@ public class GameManager : MonoBehaviour
         itemUI.UpdateItemSlotState(Item.Null, 0);
         itemUI.UpdateKeySlotState(false);
         effectObjects.ForEach(obj => Destroy(obj));
+        FindObjectsOfType<SoundPlayer>().ToList().ForEach(x => Destroy(x.gameObject));
 
         RespawnOne();
         RespawnTwo();
         SetActiveOnRestart();
         DestroyOnRestart();
         InitializeOnRestart();
+
+        instance.StopAllCoroutines();
     }
     static void InitializeOnRestart()
     {
