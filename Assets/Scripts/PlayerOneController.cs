@@ -348,6 +348,7 @@ public class PlayerOneController : MonoBehaviour
         if (player.GetNegativeButton("Vertical"))
         { inputYDirection -= 1; inputYCount += 1; }
         GetComponent<SpriteRenderer>().color = Color.white;
+        GetComponent<Animator>().SetTrigger("Initialize");
         Vector3 origin = groundChecker.localPosition;
         groundChecker.localPosition = new Vector3(origin.x, -1 * Mathf.Abs(origin.y), origin.z);
         transform.rotation = Quaternion.Euler(0, 180, 0);
